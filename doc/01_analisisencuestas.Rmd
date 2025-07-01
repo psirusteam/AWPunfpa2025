@@ -1,0 +1,15 @@
+---
+title: Análisis de las últimas encuestas sobre salud y demografía en México, Bolivia
+  y Colombia”
+output: word_document
+date: "2025-07-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Análisis de las últimas encuestas sobre salud y demografía en México, Bolivia y Colombia
+
+Este informe presenta un análisis descriptivo de la estructura y el diseño muestral de tres encuestas recientes: la Encuesta Nacional de la Dinámica Demográfica (ENADID 2023) de México, la Encuesta de Demografía y Salud (EDSA 2023) de Bolivia y la Encuesta Nacional de Demografía y Salud (ENDS 2025) de Colombia. Se examinan elementos como los módulos temáticos, las variables clave, las poblaciones objetivo y el diseño muestral. El análisis se desarrolla de manera individual para cada encuesta, permitiendo revisar sus enfoques metodológicos.
+

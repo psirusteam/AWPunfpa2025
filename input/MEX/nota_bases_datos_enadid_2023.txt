@@ -1,0 +1,3 @@
+El 19 de julio de 2024, se reemplazó la tabla TMujer1, debido a que se realizaron cambios en 34 registros de la variable “Condición de uso de métodos anticonceptivos”, con la finalidad de precisar las variables de explotación: C_USU, C_USU1 y TM_USA.
+
+El 23 de julio de 2024, se reemplazó la tabla TMujer1, debido a que se realizaron cambios en 34 registros de la variable “Condición de uso actual de métodos anticonceptivos”, con la finalidad de precisar la variable de explotación TM_USA.
