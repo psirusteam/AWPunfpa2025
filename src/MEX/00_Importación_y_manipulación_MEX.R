@@ -1,6 +1,7 @@
-#########################################################
-# Lectura y preparación de las bases de datos - MEX     #
-#########################################################
+#################################################
+#             Proyecto : AWPunfpa2025           #
+#       Lectura y manipulación  bases - MEX     #
+#################################################
 
 ### Cleaning R environment ###
 
@@ -13,6 +14,7 @@ rm(list = ls())
 library(dplyr)
 library(survey)
 library(srvyr)
+library(ggplot2)
 
 
 ################################################################################
@@ -59,8 +61,10 @@ base_mujeres2 <- base_mujeres %>% select(
   niv,        #nivel de escolaridad
   edprmat,    #edad primer matrimonio
   edpruni,    #edad primera unión
+  gra,        #grado aprobado
   p10_1,      #situacion conyugal actual
   p10_8,      #uniones anteriores
+  p3_19,      #Condición de habla indigena
 
   # Salud reproductiva
 
@@ -76,9 +80,22 @@ base_mujeres2 <- base_mujeres %>% select(
   
 )
 
+base_pers <- read.csv(file.path(input, "MEX/TSDEM.csv"), encoding = "UTF-8") %>%
+  select(
+    upm,           # Unidad primaria de muestreo
+    viv_sel,       # Vivienda seleccionada
+    hogar,         # Hogar
+    n_ren,         # Número de renglón (identificador de persona)
+    p3_7,          # Se reconoce como afrodescendiente
+    p3_12          # Habla lengua indígena
+  )
+
+base_mujeres2 <- base_mujeres2 %>%
+  left_join(base_pers, by = c("upm", "viv_sel", "hogar", "n_ren"))
+
 sum(base_mujeres2$fac_mod)#37.964.542 mujeres de 15 a 54 años de edad
 
-diseno_mujeres <- base_mujeres2 %>%
+diseño_mujeres <- base_mujeres2 %>%
   as_survey_design(
     ids = upm_dis,         # UPM de diseño muestral
     strata = est_dis,      # Estrato de diseño
@@ -86,25 +103,47 @@ diseno_mujeres <- base_mujeres2 %>%
     nest = TRUE
   )
 
+summary(diseño_mujeres)
+
+diseño_mujeres_15_49 <- diseño_mujeres %>%
+  filter(edad_muj >= 15, edad_muj <= 49)
 
 
 
+### Contrucción y comparación indicadores ya existentes en el anexo técnico ###
+
+options(survey.lonely.psu = "adjust") #hay un estrato con una solo UPM, se usa esto para seguir con el analisis sin eliminar datos 
+
+# -----------------------------------------------------------------#
+#            Mujeres de 14 a 49 años , según situación conyugal    #
+# -----------------------------------------------------------------#
+
+resultado_conyugal <- diseño_mujeres_15_49 %>%
+  group_by(p10_1) %>% 
+  summarize(
+    porcentaje = survey_mean(vartype = NULL, proportion = TRUE) * 100
+  ) %>%
+  mutate(etiqueta = recode(as.character(p10_1),
+                           "1" = "Unión libre",
+                           "2" = "Separada unión libre",
+                           "3" = "Separada matrimonio",
+                           "4" = "Divorciada",
+                           "5" = "Viuda unión libre",
+                           "6" = "Viuda matrimonio",
+                           "7" = "Casada",
+                           "8" = "Soltera"
+  )) %>%
+  ggplot(aes(x = reorder(etiqueta, porcentaje), y = porcentaje)) +
+  geom_col(fill = "#6baed6") +
+  geom_text(aes(label = round(porcentaje, 1)), hjust = -0.1) +
+  coord_flip() +
+  labs(x = NULL, y = "Porcentaje (%)") +
+  theme_minimal()
+
+ggsave(filename = file.path(output, "MEX/img/situacion_conyugal_mujeres_15_49.png"),
+       width = 7, height = 5, dpi = 300)
 
 
+save(base_mujeres2, file = file.path(output, "MEX/ENADID_modulo_mujeres_2023.RData"))
 
 
-
-
-
-
-
-
-
-TSDEM      <- read.csv(file.path(input, "MEX/TSDEM.csv"), encoding = "UTF-8")#Características sociodemográficas
-
-
-sum(ENADID_MEX$fac_mod, na.rm = TRUE)
-
-
-
-colnames(TMUJER2)
