@@ -3,6 +3,10 @@
 #       Provesamiento indicadoeres - MEX        #
 #################################################
 
+### Cleaning R environment ###
+
+rm(list = ls())
+
 #################
 ### Libraries ###
 #################
@@ -29,18 +33,16 @@ load(file.path(output, "MEX/ENADID_modulo_mujeres_2023.RData"))
 ################################################################################
 ###---------------------------- Variables standardization--------------------###
 ################################################################################
-unique(base_mujeres2$niv)
 
-
-base_mujeres2 <- base_mujeres2 %>%
+base_modelomuj <- base_modelomuj %>%
   mutate(
     anoest  = case_when(
       edad_muj < 15 | niv == -1 ~ "98",                                # No aplica
       niv == 99 | (edad_muj >= 15 & is.na(niv)) ~ "99",                # No especificado / NSNR
-      niv == 0 ~ "1",                                              # Ninguno
-      niv %in% 1:2 ~ "2",                                          # Preescolar o primaria
-      niv %in% 3:7 ~ "3",                                          # Secundaria, técnica con secundaria o media
-      niv %in% 8:11 ~ "4",                                         # Educación superior: licenciatura o más
+      niv == 0 ~ "1",                                                  # Ninguno
+      niv %in% 1:2 ~ "2",                                              # Preescolar o primaria
+      niv %in% 3:7 ~ "3",                                              # Secundaria, técnica con secundaria o media
+      niv %in% 8:11 ~ "4",                                             # Educación superior: licenciatura o más
       TRUE ~ "Error"
     ),
     
@@ -58,8 +60,52 @@ base_mujeres2 <- base_mujeres2 %>%
     etnia = case_when(
       p3_7 == 1 ~ "1",      #Afro
       p3_12 == 1 ~ "2",     #indigena
-      TRUE ~ "3"            #Otros
-    )
+      TRUE ~ "3"),          #otros
+    
+    #Unión antes de los 15 y 18 años
+    union15 = case_when(
+      !is.na(edpruni) & edpruni < 15 ~ 1,
+      TRUE ~ 0),
+    
+    union18 = case_when(
+      !is.na(edpruni) & edpruni < 18 ~ 1,
+      TRUE ~ 0), 
+    
+    # Consentimiento en la primera relación sexual
+    consentim_sex = case_when(
+      p8_40 == 1 ~ 1,
+      p8_40 %in% c(2,9) ~ 0,
+      TRUE ~ NA_real_),
+    
+    # Conocimiento de métodos anticonceptivos
+    conoc_met = case_when(
+      conoce %in% c(1,2,3,4,5) ~ 1,
+      TRUE ~ 0),
+    
+    # Uso actual de método anticonceptivo
+    usa_met = case_when(
+      p8_10 == 1 ~ 1,
+      p8_10 == 2 ~ 0,
+      TRUE ~ NA_real_),
+    
+    # Decisión de usar método anticonceptivo
+    dec_met = case_when(
+      p8_19 == 3 ~ 1,
+      p8_19 %in% c(1,2) ~ 0,
+      TRUE ~ NA_real_),
+    
+    # Revisión prenatal en el primer trimestre
+    rev_pren = case_when(
+      repretrim == 1 ~ 1,
+      repretrim %in% c(2,9) ~ 0,
+      TRUE ~ NA_real_),
+    
+    # Mínimo 8 revisiones prenatales (recomendación OMS)
+    oms_prenatal = case_when(
+      is.na(trevpren) ~ NA_real_,
+      trevpren >= 8 ~ 1,
+      trevpren < 8 ~ 0)
+    
   )
     
     
@@ -68,7 +114,7 @@ base_mujeres2 <- base_mujeres2 %>%
 ################################################################################  
 options(survey.lonely.psu = "adjust")
 
-diseño_mujeres <- base_mujeres2 %>%
+diseño_mujeres <- base_modelomuj %>%
   as_survey_design(
     ids = upm_dis,
     strata = est_dis,
@@ -81,11 +127,7 @@ diseño_mujeres <- base_mujeres2 %>%
 ### unión antes de los 15 o 18 años.
 
 diseño_mujeres_fltd <- diseño_mujeres %>%
-  filter(edad_muj >= 20 & edad_muj <= 24) %>%
-  mutate(
-    union15 = if_else(!is.na(edpruni) & edpruni < 15, 1, 0),
-    union18 = if_else(!is.na(edpruni) & edpruni < 18, 1, 0)
-  )
+  filter(edad_muj >= 20 & edad_muj <= 24) 
 
 indicator1_area <- diseño_mujeres_fltd %>%
   group_by(dam, area) %>%
@@ -109,9 +151,8 @@ indicator1_anoest <- diseño_mujeres_fltd %>%
 ### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
 
-
-
-
+diseño_mujeres_15_49 <- diseño_mujeres %>%
+  filter(edad_muj >= 15 & edad_muj <= 49)
 
 
 ### Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna 
@@ -119,8 +160,5 @@ indicator1_anoest <- diseño_mujeres_fltd %>%
 ## actual o anterior en los últimos 12 meses (15-49 años)
 
 
-base_mujeres2 %>%
-  group_by(est_dis) %>%
-  summarise(n_upm = n_distinct(upm_dis)) %>%
-  filter(n_upm == 1)
+
 

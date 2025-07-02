@@ -76,6 +76,7 @@ base_Tmujer2<- read.csv(file.path(input, "MEX/TMUJER2.csv"), encoding = "UTF-8")
   conrevpri,  # Revisión en el primer año de vida del infante
   p9_26,      # Está lactando actualmente
   p9_34,      # Si deseaba el embarazo (último hijo nacido vivo)
+  repretrim,  # Revisión en el primer trimestre  
   
 )
 
@@ -95,6 +96,7 @@ base_Tmujer1 <- read.csv(file.path(input, "MEX/TMUJER1.csv"), encoding = "UTF-8"
   p8_27c,        # Razón de suspensión o abandono (penúltimo o último)
   p8_35c,        # ¿Cuál fue la principal razón por la que dejó de usar (MÉTODO DE MENOR CÓDIGO EN 8.32)? (codificada)
   p8_40,         # ¿Esta primera experiencia fue con su consentimiento (usted así lo quiso)?
+  p8_39,         # Edad primera relacion sexual
   
   # Protección utilizada en la primera relación sexual
   
@@ -191,6 +193,6 @@ ggsave(filename = file.path(output, "MEX/img/situacion_conyugal_mujeres_15_49.pn
        width = 7, height = 5, dpi = 300)
 
 
-save(base_mujeres2, file = file.path(output, "MEX/ENADID_modulo_mujeres_2023.RData"))
+save(base_modelomuj, file = file.path(output, "MEX/ENADID_modulo_mujeres_2023.RData"))
 
 
