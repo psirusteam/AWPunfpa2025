@@ -88,6 +88,7 @@ base_Tmujer1 <- read.csv(file.path(input, "MEX/TMUJER1.csv"), encoding = "UTF-8"
   
   
   # Vida sexual
+  sex_act,       #Condición activida sexual
   p8_3,          # ¿Alguna vez usted o su pareja han utilizado algún método para evitar el embarazo?
   p8_4_01,       # ¿Esta usted operada para evitar el embarazo? 
   p8_10,         # ¿Actualmente usted (o su pareja) están utilizando algún método para evitar el embarazo?

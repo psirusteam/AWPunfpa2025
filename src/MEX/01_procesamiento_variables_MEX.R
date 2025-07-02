@@ -80,7 +80,8 @@ base_modelomuj <- base_modelomuj %>%
     # Conocimiento de métodos anticonceptivos
     conoc_met = case_when(
       conoce %in% c(1,2,3,4,5) ~ 1,
-      TRUE ~ 0),
+      conoce == 6 ~ 0,
+      TRUE ~ NA_real_),
     
     # Uso actual de método anticonceptivo
     usa_met = case_when(
@@ -91,7 +92,7 @@ base_modelomuj <- base_modelomuj %>%
     # Decisión de usar método anticonceptivo
     dec_met = case_when(
       p8_19 == 3 ~ 1,
-      p8_19 %in% c(1,2) ~ 0,
+      p8_19 %in% c(1, 2, 4, 5,8,9) ~ 0,
       TRUE ~ NA_real_),
     
     # Revisión prenatal en el primer trimestre
@@ -151,8 +152,7 @@ indicator1_anoest <- diseño_mujeres_fltd %>%
 ### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
 
-diseño_mujeres_15_49 <- diseño_mujeres %>%
-  filter(edad_muj >= 15 & edad_muj <= 49)
+
 
 
 ### Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna 
