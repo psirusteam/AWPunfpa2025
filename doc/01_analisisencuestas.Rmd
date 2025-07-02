@@ -2,7 +2,7 @@
 title: Análisis de las últimas encuestas sobre salud y demografía en México, Bolivia
   y Colombia”
 output: word_document
-date: "2025-07-01"
+date: "2025-07-02"
 ---
 
 ```{r setup, include=FALSE}
@@ -17,5 +17,90 @@ Este informe presenta un análisis descriptivo de la estructura y el diseño mue
 
 El módulo de mujeres de la Encuesta Nacional de la Dinámica Demográfica (ENADID 2023) está orientado a recopilar información detallada sobre aspectos clave de la vida reproductiva y social de las mujeres mexicanas de 15 a 54 años. Este módulo profundiza en temas como fecundidad, planificación familiar, salud sexual y reproductiva, así como experiencias de unión y convivencia. Su objetivo es generar datos que permitan comprender con mayor precisión las condiciones y decisiones que enfrentan las mujeres en el contexto demográfico actual del país.
 
+#### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años
+
+**Población objetivo:** Mujeres entre 20 y 24 años.
+
+**Variables utilizadas:**
+
+- `edad_muj`: Edad actual de la mujer.
+- `edpruni`: Edad a la primera unión.
+
+**Variables derivadas:**
+
+- `union15`: Variable binaria que toma el valor 1 si la mujer se unió antes de los 15 años, y 0 en caso contrario.
+- `union18`: Variable binaria que toma el valor 1 si la mujer se unió antes de los 18 años, y 0 en caso contrario.
+
+**Numerador:** Número de mujeres de 20 a 24 años que estuvieron casadas o unidas antes de los 18 años.
+
+**Denominador:** Total de mujeres de 20 a 24 años.
+
+**Desagregaciones:** Se presenta la proporción por entidad federativa (`dam`), área (`area`) y nivel educativo (`anoest`).
+
+**Importancia:** Este indicador refleja las uniones tempranas, que pueden asociarse a mayores niveles de vulnerabilidad, limitación en el acceso a educación y salud, y dependencia económica.
+
+### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva
+
+**Población objetivo:** Mujeres de 15 a 49 años, actualmente casadas o en unión libre.
+
+**Variables utilizadas:**
+
+- **`p10_1`: Situación conyugal actual**  
+  Pregunta: *Actualmente usted...*  
+  Opciones de respuesta:  
+  - 1: Vive con su pareja en unión libre  
+  - 2: Está separada de una unión libre  
+  - 3: Está separada de un matrimonio  
+  - 4: Está divorciada  
+  - 5: Está viuda de una unión libre  
+  - 6: Está viuda de un matrimonio  
+  - 7: Está casada  
+  - 8: Está soltera  
+
+- **`p7_16`: Decisión sobre el número de hijas(os)**  
+  Pregunta: *El número de hijas o hijos que tiene actualmente, ¿ha sido decisión...*  
+  Opciones de respuesta:  
+  - 1: De ella  
+  - 2: De su pareja  
+  - 3: De ambos  
+  - 4: De otra persona  
+  - 9: No responde  
+
+- **`p8_19`: Decisión sobre el uso del método anticonceptivo actual**  
+  Pregunta: *¿Quién decidió el uso del método anticonceptivo que utiliza actualmente?*  
+  Opciones de respuesta:  
+  - 1: De su pareja  
+  - 2: De ambos  
+  - 3: Suya  
+  - 4: De otra persona  
+  - 5: Personal de salud  
+  - 8: No sabe  
+  - 9: No especificado 
+  
+- **`p8_40`: Consentimiento en la primera relación sexual**  
+  Pregunta: *¿Esta primera experiencia fue con su consentimiento (usted así lo quiso)?*  
+  Opciones de respuesta:  
+  - 1: Sí  
+  - 2: No  
+  - 9: No responde  
+
+**Variables derivadas:**
+
+- `esta_unida`: Toma el valor 1 si la mujer declaró estar casada o en unión libre (categorías 1 o 7).
+- `dec_hijos`: Toma el valor 1 si la mujer decidió por sí misma el número de hijos (`p7_16 == 1`).
+- `dec_met`: Toma el valor 1 si la decisión de usar el método anticonceptivo fue exclusivamente de la mujer (`p8_19 == 3`).
+- `consentim_sex`: Toma el valor 1 si la mujer dio su consentimiento en la primera relación sexual (`p8_40 == 1`).
+
+**Numerador:** Mujeres de 15 a 49 años que están casadas o en unión, y que cumplen simultáneamente los siguientes tres criterios de empoderamiento:
+
+1. Haber otorgado consentimiento en su primera relación sexual.
+2. Haber tomado por sí mismas la decisión de usar el método anticonceptivo actual.
+3. Haber tomado por sí mismas la decisión sobre el número de hijas o hijos que deseaban tener.
+
+**Denominador:** Total de mujeres de 15 a 49 años, casadas o en unión libre.
+
+**Desagregaciones:** Resultados por entidad federativa (`dam`), área (`area`) y nivel educativo (`anoest`).
+
+**Nota metodológica:** Las mujeres con datos faltantes en alguna de las tres variables fueron excluidas del numerador. El indicador refleja el grado de autonomía reproductiva y toma de decisiones de las mujeres.
 
 

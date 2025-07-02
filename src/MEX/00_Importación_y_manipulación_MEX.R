@@ -98,6 +98,8 @@ base_Tmujer1 <- read.csv(file.path(input, "MEX/TMUJER1.csv"), encoding = "UTF-8"
   p8_35c,        # ¿Cuál fue la principal razón por la que dejó de usar (MÉTODO DE MENOR CÓDIGO EN 8.32)? (codificada)
   p8_40,         # ¿Esta primera experiencia fue con su consentimiento (usted así lo quiso)?
   p8_39,         # Edad primera relacion sexual
+  p7_16,         #Decisión número de hijos
+  p8_16,         # ¿Cuál es la razón principal por la que le recetaron (prescribieron) el método que utiliza actualmente?
   
   # Protección utilizada en la primera relación sexual
   

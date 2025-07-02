@@ -95,17 +95,19 @@ base_modelomuj <- base_modelomuj %>%
       p8_19 %in% c(1, 2, 4, 5,8,9) ~ 0,
       TRUE ~ NA_real_),
     
-    # Revisión prenatal en el primer trimestre
-    rev_pren = case_when(
-      repretrim == 1 ~ 1,
-      repretrim %in% c(2,9) ~ 0,
+    
+    # Casada o en unión libre actualmente
+    esta_unida = case_when(
+      p10_1 %in% c(1, 7) ~ 1,  
+      p10_1 %in% c(2,3,4,5,6,8) ~ 0,
       TRUE ~ NA_real_),
     
-    # Mínimo 8 revisiones prenatales (recomendación OMS)
-    oms_prenatal = case_when(
-      is.na(trevpren) ~ NA_real_,
-      trevpren >= 8 ~ 1,
-      trevpren < 8 ~ 0)
+    ## Decisión sobre número de hijos
+    dec_hijos = case_when(
+      p7_16 == 1 ~ 1,                         # Decidió ella
+      p7_16 %in% c(2,3,4,9) ~ 0,              # Decidió otra persona
+      TRUE ~ NA_real_
+    )
     
   )
     
@@ -127,22 +129,22 @@ diseño_mujeres <- base_modelomuj %>%
 ### Proporción de mujeres de 20-24 años que estuvieron casadas o en 
 ### unión antes de los 15 o 18 años.
 
-diseño_mujeres_fltd <- diseño_mujeres %>%
+diseño_indicador1 <- diseño_mujeres %>%
   filter(edad_muj >= 20 & edad_muj <= 24) 
 
-indicator1_area <- diseño_mujeres_fltd %>%
+indicator1_area <- diseño_indicador1 %>%
   group_by(dam, area) %>%
   summarise(
     prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
   )
 
-indicator1_etnia <- diseño_mujeres_fltd %>%
+indicator1_etnia <- diseño_indicador1 %>%
   group_by(dam, etnia) %>%
   summarise(
     prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
   )
 
-indicator1_anoest <- diseño_mujeres_fltd %>%
+indicator1_anoest <- diseño_indicador1 %>%
   group_by(dam, anoest) %>%
   summarise(
     prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
@@ -152,6 +154,33 @@ indicator1_anoest <- diseño_mujeres_fltd %>%
 ### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
 
+diseño_indicator2 <- diseño_mujeres %>%
+  filter(edad_muj >= 15 & edad_muj <= 49, esta_unida == 1) %>%
+  mutate(
+    indicator_2 = case_when(
+      dec_hijos == 1 & dec_met == 1 & consentim_sex == 1 ~ 1,
+      is.na(dec_hijos) | is.na(dec_met) | is.na(consentim_sex) ~ NA_real_,
+      TRUE ~ 0
+    )
+  )
+
+indicator2_area <- diseño_indicator2 %>%
+  group_by(dam, area) %>%
+  summarise(
+    indicator_2 = survey_mean(indicator_2, vartype = "se", na.rm = TRUE)*100
+  )
+
+indicator2_etnia <- diseño_indicator2 %>%
+  group_by(dam, etnia) %>%
+  summarise(
+    indicator_2 = survey_mean(indicator_2, vartype = "se", na.rm = TRUE)*100
+  )
+
+indicator2_anoest <- diseño_indicator2 %>%
+  group_by(dam, anoest) %>%
+  summarise(
+    indicator_2 = survey_mean(indicator_2, vartype = "se", na.rm = TRUE)*100
+  )
 
 
 
