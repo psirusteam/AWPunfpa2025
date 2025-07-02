@@ -31,9 +31,8 @@ src <- file.path(b_path, "src")
 #            Módulo mujeres             #
 # --------------------------------------#
 
-base_mujeres<- read.csv(file.path(input, "MEX/TMUJER2.csv"), encoding = "UTF-8") #Módulo de mujeres
-base_mujeres2 <- base_mujeres %>% select(
-
+base_Tmujer2<- read.csv(file.path(input, "MEX/TMUJER2.csv"), encoding = "UTF-8") %>% select( #Módulo de mujeres
+  
   # Identificación de la persona y del hogar
  
   upm,        # Unidad Primaria de Muestreo
@@ -80,6 +79,53 @@ base_mujeres2 <- base_mujeres %>% select(
   
 )
 
+base_Tmujer1 <- read.csv(file.path(input, "MEX/TMUJER1.csv"), encoding = "UTF-8") %>% select(
+  upm,           # Unidad primaria de muestreo
+  viv_sel,       # Vivienda seleccionada
+  hogar,         # Hogar
+  n_ren,         # Número de renglón (identificador de persona) 
+  
+  
+  # Vida sexual
+  p8_3,          # ¿Alguna vez usted o su pareja han utilizado algún método para evitar el embarazo?
+  p8_4_01,       # ¿Esta usted operada para evitar el embarazo? 
+  p8_10,         # ¿Actualmente usted (o su pareja) están utilizando algún método para evitar el embarazo?
+  p8_16c,        # ¿Cuál es la razón principal por la que le recetaron (prescribieron) el método que utiliza actualmente?
+  p8_19,         # ¿La decisión de usar (MÉTODO ACTUAL) fue…
+  p8_27c,        # Razón de suspensión o abandono (penúltimo o último)
+  p8_35c,        # ¿Cuál fue la principal razón por la que dejó de usar (MÉTODO DE MENOR CÓDIGO EN 8.32)? (codificada)
+  p8_40,         # ¿Esta primera experiencia fue con su consentimiento (usted así lo quiso)?
+  
+  # Protección utilizada en la primera relación sexual
+  
+  p8_41_01,      # No usaron nada
+  p8_41_02,      # pastillas anticonceptivas
+  p8_41_03,      # Inyecciones o ampolletas anticonceptivas
+  p8_41_04,      # Implante anticonceptivo (subdérmico) o Norplant
+  p8_41_05,      # parche anticonceptivo
+  p8_41_06,      # DIU, dispositivo o aparato (de cobre)
+  p8_41_07,      # Condón o preservativo masculino
+  p8_41_08,      # Condón o preservativo femenino
+  p8_41_09,      # Óvulos, jaleas o espumas anticonceptivas
+  p8_41_10,      # Ritmo, calendario, Billings o abstinencia periódica
+  p8_41_11,      # Retiro o coito interrumpido
+  p8_41_12,      # píldora del día siguiente o anticoncepción de emergencia
+  p8_41_13,      # Otro método
+  p8_41_99,      # No responde
+  p8_42c,        # Razón de no uso en la primera relación
+  
+  #Conocimiento métodos anticonceptivos
+  
+  conoce,        # Conocimiento y tipo de métodos anticonceptivos
+  pri_met,       # Primer metodo utilizadp
+  p8_41_ag,      # Condición de protección en la primera relación sexual
+)
+  
+  
+  # --------------------------------------#
+  #            Módulo personas            #
+  # --------------------------------------#  
+
 base_pers <- read.csv(file.path(input, "MEX/TSDEM.csv"), encoding = "UTF-8") %>%
   select(
     upm,           # Unidad primaria de muestreo
@@ -87,15 +133,16 @@ base_pers <- read.csv(file.path(input, "MEX/TSDEM.csv"), encoding = "UTF-8") %>%
     hogar,         # Hogar
     n_ren,         # Número de renglón (identificador de persona)
     p3_7,          # Se reconoce como afrodescendiente
-    p3_12          # Habla lengua indígena
+    p3_12,         # Habla lengua indígena
+    
   )
 
-base_mujeres2 <- base_mujeres2 %>%
-  left_join(base_pers, by = c("upm", "viv_sel", "hogar", "n_ren"))
+base_modelomuj <- base_Tmujer2 %>%
+  left_join(base_pers, by = c("upm", "viv_sel", "hogar", "n_ren")) %>% left_join(base_Tmujer1, by = c("upm", "viv_sel", "hogar", "n_ren"))
 
-sum(base_mujeres2$fac_mod)#37.964.542 mujeres de 15 a 54 años de edad
+sum(base_modelomuj$fac_mod)#37.964.542 mujeres de 15 a 54 años de edad
 
-diseño_mujeres <- base_mujeres2 %>%
+diseño_mujeres <- base_modelomuj %>%
   as_survey_design(
     ids = upm_dis,         # UPM de diseño muestral
     strata = est_dis,      # Estrato de diseño

@@ -1,3 +1,8 @@
+#################################################
+#             Proyecto : AWPunfpa2025           #
+#       Provesamiento indicadoeres - MEX        #
+#################################################
+
 #################
 ### Libraries ###
 #################
@@ -61,8 +66,61 @@ base_mujeres2 <- base_mujeres2 %>%
 ################################################################################
 ###---------------------------- Indicators ----------------------------------###
 ################################################################################  
+options(survey.lonely.psu = "adjust")
+
+diseño_mujeres <- base_mujeres2 %>%
+  as_survey_design(
+    ids = upm_dis,
+    strata = est_dis,
+    weights = fac_mod,
+    nest = TRUE
+  )
+
+
+### Proporción de mujeres de 20-24 años que estuvieron casadas o en 
+### unión antes de los 15 o 18 años.
+
+diseño_mujeres_fltd <- diseño_mujeres %>%
+  filter(edad_muj >= 20 & edad_muj <= 24) %>%
+  mutate(
+    union15 = if_else(!is.na(edpruni) & edpruni < 15, 1, 0),
+    union18 = if_else(!is.na(edpruni) & edpruni < 18, 1, 0)
+  )
+
+indicator1_area <- diseño_mujeres_fltd %>%
+  group_by(dam, area) %>%
+  summarise(
+    prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
+  )
+
+indicator1_etnia <- diseño_mujeres_fltd %>%
+  group_by(dam, etnia) %>%
+  summarise(
+    prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
+  )
+
+indicator1_anoest <- diseño_mujeres_fltd %>%
+  group_by(dam, anoest) %>%
+  summarise(
+    prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
+  )
+
+
+### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
+### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
+
+
+
+
+
 
 ### Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna 
 ### vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja 
 ## actual o anterior en los últimos 12 meses (15-49 años)
+
+
+base_mujeres2 %>%
+  group_by(est_dis) %>%
+  summarise(n_upm = n_distinct(upm_dis)) %>%
+  filter(n_upm == 1)
 
