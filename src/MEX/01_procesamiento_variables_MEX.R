@@ -37,8 +37,8 @@ load(file.path(output, "MEX/ENADID_modulo_mujeres_2023.RData"))
 base_modelomuj <- base_modelomuj %>%
   mutate(
     anoest  = case_when(
-      edad_muj < 15 | niv == -1 ~ "98",                                # No aplica
-      niv == 99 | (edad_muj >= 15 & is.na(niv)) ~ "99",                # No especificado / NSNR
+      edad_muj < 5 | niv == -1 ~ "98",                                # No aplica
+      niv == 99 | (edad_muj >= 5 & is.na(niv)) ~ "99",                # No especificado / NSNR
       niv == 0 ~ "1",                                                  # Ninguno
       niv %in% 1:2 ~ "2",                                              # Preescolar o primaria
       niv %in% 3:7 ~ "3",                                              # Secundaria, técnica con secundaria o media
@@ -61,14 +61,19 @@ base_modelomuj <- base_modelomuj %>%
       p3_7 == 1 ~ "1",      #Afro
       p3_12 == 1 ~ "2",     #indigena
       TRUE ~ "3"),          #otros
-    
+
     #Unión antes de los 15 y 18 años
+    
+    edad_union <- pmin(edpruni, edprmat, na.rm = TRUE), 
+    
     union15 = case_when(
-      !is.na(edpruni) & edpruni < 15 ~ 1,
+      !is.na(edad_union) & edad_union < 15 ~ 1,
+      is.na(edad_union) ~ NA_real_,
       TRUE ~ 0),
     
     union18 = case_when(
-      !is.na(edpruni) & edpruni < 18 ~ 1,
+      !is.na(edad_union) & edad_union < 18 ~ 1,
+      is.na(edad_union) ~ NA_real_,
       TRUE ~ 0), 
     
     # Consentimiento en la primera relación sexual

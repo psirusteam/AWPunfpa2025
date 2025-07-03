@@ -42,6 +42,9 @@ base_mujeres <- read_sav(file.path(input, "BOL/EDSA2023_Mujer.sav")) %>%
     upm,             # Unidad primaria de muestreo
     estrato,         # Estrato
     ponderadorm,     # ponderador
+    departamento,    # departamento
+    region,          #region
+    area,            #area
     
     # Características sociodemográficas
     ms01_0101a,         # Edad (años cumplidos)
@@ -49,6 +52,7 @@ base_mujeres <- read_sav(file.path(input, "BOL/EDSA2023_Mujer.sav")) %>%
     ms01_0108_npiocs,   # Nombre del pueblo o nación
     aestudio,           # Años de estudio
     econyugd_m,         # Estado conyugal
+    ms01_0101b_3,       # año de nacimiento
     
     # Autonomía en decisiones
     ms07_0720,          # Decisión sobre anticoncepción
@@ -58,6 +62,8 @@ base_mujeres <- read_sav(file.path(input, "BOL/EDSA2023_Mujer.sav")) %>%
     ms06_0610,          # Edad primera relación sexual
     ms06_0610_b,        # Si tuvo consentimiento
     ms06_0608,          # Edad al irse a vivir con su esposo o compañero
+    ms06_0607_02_2,     #Año en que se fue a vivir con su primer esposo o compañero
+    ms06_0607_01_2,     #Año en que se fue a vivir con su esposo o compañero
     
     # Violencia psicológica y económica (últimos 12 meses)
     ms11_1105_B,        # Insultos
@@ -73,12 +79,41 @@ base_mujeres <- read_sav(file.path(input, "BOL/EDSA2023_Mujer.sav")) %>%
   )
 
 sum(base_mujeres$ponderadorm)
+
+
 ### Contrucción y comparación indicadores ya existentes en el anexo técnico ###
 
-diseno_mujeres <- svydesign(
-  id = ~upm,
-  strata = ~estrato,
-  weights = ~ponderadorm,
-  data = base_mujeres,
-  nest = TRUE
-)
+# -----------------------------------------------------------------#
+#            Mujeres de 14 a 49 años , según situación conyugal    #
+# -----------------------------------------------------------------#
+
+
+base_mujeres <- base_mujeres %>%
+  mutate(econyugd_factor = as_factor(econyugd_m))
+
+diseno_mujeres <- base_mujeres %>%
+  as_survey_design(
+    ids = upm,
+    strata = estrato,
+    weights = ponderadorm,
+    nest = TRUE
+  )
+
+diseno_m12_49 <- diseno_mujeres %>%
+  filter(ms01_0101a >= 15, ms01_0101a <= 49)
+
+
+resultado_conyugal <- diseno_m12_49 %>%
+  group_by(econyugd_factor) %>%
+  summarize(porcentaje = survey_mean(proportion = TRUE, vartype = NULL) * 100) %>%
+  ggplot(aes(x = reorder(econyugd_factor, porcentaje), y = porcentaje)) +
+  geom_col(fill = "#6baed6") +
+  geom_text(aes(label = round(porcentaje, 1)), hjust = -0.1) +
+  coord_flip() +
+  labs(x = NULL, y = "Porcentaje (%)") +
+  theme_minimal()
+
+ggsave(filename = file.path(output, "BOL/img/situacion_conyugal_mujeres_15_49.png"),
+       width = 7, height = 5, dpi = 300)
+
+save(base_mujeres, file = file.path(output, "BOL/EDSA_modulo_mujeres_2023.RData"))
