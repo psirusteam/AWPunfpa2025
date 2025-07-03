@@ -104,3 +104,28 @@ El módulo de mujeres de la Encuesta Nacional de la Dinámica Demográfica (ENAD
 **Nota metodológica:** Las mujeres con datos faltantes en alguna de las tres variables fueron excluidas del numerador. El indicador refleja el grado de autonomía reproductiva y toma de decisiones de las mujeres.
 
 
+### Encuesta de demografía y salud(EDSA 2023) de Bolívia.
+
+La Encuesta de Demografía y Salud (EDSA) 2023, realizada por el Instituto Nacional de Estadística (INE) de Bolivia con el apoyo del Ministerio de Salud y Deportes, tiene como objetivo principal generar información estadística confiable sobre la situación demográfica y de salud de la población boliviana.La encuesta aborda temas como la fecundidad, la salud materno-infantil, la nutrición y la salud reproductiva, y aplica metodologías reconocidas internacionalmente. También incorpora innovaciones importantes, como módulos sobre primera infancia, salud de adolescentes y enfermedades no transmisibles.
+
+#### Unidad Geográfica
+
+La Encuesta de Demografía y Salud 2023 se llevó a cabo en las áreas urbanas y rurales de los nueve departamentos de Bolivia: Chuquisaca, La Paz, Cochabamba, Oruro, Potosí, Tarija, Santa Cruz, Beni y Pando.
+
+#### Unidad de Análisis
+
+La encuesta contempla como unidades de análisis a los siguientes grupos poblacionales:
+
+- Mujeres en edad fértil (12 a 49 años),
+- Hombres de 15 a 64 años, y
+- Niñas y niños menores de seis (6) años, todos ellos miembros del hogar.
+
+#### Universo
+
+El universo de estudio corresponde a los hogares particulares ocupados en los nueve departamentos del país, en áreas urbanas y rurales, que albergan al menos una de las siguientes poblaciones objetivo:
+
+- Mujeres de 12 a 49 años,
+- Niñas y niños menores de 6 años,
+- Hombres de 15 a 64 años.
+
+
