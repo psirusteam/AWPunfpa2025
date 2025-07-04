@@ -147,9 +147,16 @@ base_mujeres <- base_mujeres %>% mutate(
     is.na(edad_union1) ~ NA_real_,
     TRUE ~ 0), 
   
+  #si ha tenido una relacion alguna vez
   rela_algunavez = case_when(
     ms06_0602 %in% c(1, 2) ~ 1,
     ms06_0602 == 3 ~ 0,
+    TRUE ~ NA_real_
+  ),
+  
+  esta_unida = case_when(
+    econyugd_m %in% c(2, 3) ~ 1,
+    econyugd_m %in% c(1, 4, 5, 999) ~ 0,
     TRUE ~ NA_real_
   )
   
@@ -197,7 +204,7 @@ indicator1_anoest <- diseno_mujeres_20_24 %>%
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
 
 diseño_indicator2 <- diseno_mujeres %>%
-  filter(ms01_0101a >= 15, ms01_0101a <= 49) %>%
+  filter(ms01_0101a >= 15, ms01_0101a <= 49, esta_unida == 1) %>%
   mutate(
     decision_informada = case_when(
       dec_met == 1 & dec_atmed == 1 & consentim_sex == 1 ~ 1,
@@ -229,4 +236,43 @@ indicator2_anoest <- diseño_indicator2 %>%
 ### vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja 
 ## actual o anterior en los últimos 12 meses (15-49 años)
 
+diseño_indicator3 <- diseno_mujeres %>%
+  filter(ms01_0101a >= 15, ms01_0101a <= 49, rela_algunavez == 1) %>%
+  mutate(
+    violencia_pareja_ult12m = case_when(
+      insultos == 1 |
+        encierros == 1 |
+        humillaciones == 1 |
+        amenazas_abandono == 1 |
+        amenazas_hijos == 1 |
+        romper_objetos == 1 |
+        amenaza_economica == 1 |
+        control_economico == 1 |
+        amenaza_sex == 1 |
+        amenaza_muerte == 1 ~ 1,
+      insultos == 0 & encierros == 0 & humillaciones == 0 &
+        amenazas_abandono == 0 & amenazas_hijos == 0 &
+        romper_objetos == 0 & amenaza_economica == 0 &
+        control_economico == 0 & amenaza_sex == 0 &
+        amenaza_muerte == 0 ~ 0,
+      TRUE ~ NA_real_
+    )
+  )
 
+indicator3_area <- diseño_indicator3 %>%
+  group_by(dam, area) %>%
+  summarise(
+    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
+  )
+
+indicator3_etnia <- diseño_indicator3 %>%
+  group_by(dam, etnia) %>%
+  summarise(
+    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
+  )
+
+indicator3_anoest <- diseño_indicator3 %>%
+  group_by(dam, anoest) %>%
+  summarise(
+    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
+  )

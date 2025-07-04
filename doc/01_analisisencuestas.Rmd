@@ -48,41 +48,41 @@ El módulo de mujeres de la Encuesta Nacional de la Dinámica Demográfica (ENAD
 - **`p10_1`: Situación conyugal actual**  
   Pregunta: *Actualmente usted...*  
   Opciones de respuesta:  
-  - 1: Vive con su pareja en unión libre  
-  - 2: Está separada de una unión libre  
-  - 3: Está separada de un matrimonio  
-  - 4: Está divorciada  
-  - 5: Está viuda de una unión libre  
-  - 6: Está viuda de un matrimonio  
-  - 7: Está casada  
-  - 8: Está soltera  
+   1: Vive con su pareja en unión libre  
+   2: Está separada de una unión libre  
+   3: Está separada de un matrimonio  
+   4: Está divorciada  
+   5: Está viuda de una unión libre  
+   6: Está viuda de un matrimonio  
+   7: Está casada  
+   8: Está soltera  
 
 - **`p7_16`: Decisión sobre el número de hijas(os)**  
   Pregunta: *El número de hijas o hijos que tiene actualmente, ¿ha sido decisión...*  
   Opciones de respuesta:  
-  - 1: De ella  
-  - 2: De su pareja  
-  - 3: De ambos  
-  - 4: De otra persona  
-  - 9: No responde  
+    1: De ella  
+    2: De su pareja  
+    3: De ambos  
+    4: De otra persona  
+    9: No responde  
 
 - **`p8_19`: Decisión sobre el uso del método anticonceptivo actual**  
   Pregunta: *¿Quién decidió el uso del método anticonceptivo que utiliza actualmente?*  
   Opciones de respuesta:  
-  - 1: De su pareja  
-  - 2: De ambos  
-  - 3: Suya  
-  - 4: De otra persona  
-  - 5: Personal de salud  
-  - 8: No sabe  
-  - 9: No especificado 
+    1: De su pareja  
+    2: De ambos  
+    3: Suya  
+    4: De otra persona  
+    5: Personal de salud  
+    8: No sabe  
+    9: No especificado 
   
 - **`p8_40`: Consentimiento en la primera relación sexual**  
   Pregunta: *¿Esta primera experiencia fue con su consentimiento (usted así lo quiso)?*  
   Opciones de respuesta:  
-  - 1: Sí  
-  - 2: No  
-  - 9: No responde  
+    1: Sí  
+    2: No  
+    9: No responde  
 
 **Variables derivadas:**
 
@@ -127,5 +127,48 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 - Mujeres de 12 a 49 años,
 - Niñas y niños menores de 6 años,
 - Hombres de 15 a 64 años.
+
+#### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años
+
+**Población objetivo:** Mujeres entre 20 y 24 años.
+
+**Variables utilizadas:**
+- `ms01_0101a`: Edad actual.
+- `ms06_0607_02_2`: Año de primera unión.
+- `ms01_0101b_3`: Año de nacimiento.
+
+**Variables derivadas:**
+- `edad_union1`: Edad al momento de la primera unión.
+- `union18`: 1 si ocurrió antes de los 18 años, 0 en caso contrario.
+
+**Numerador:** Mujeres de 20-24 años unidas antes de los 18 años.
+
+**Denominador:** Mujeres de 20-24 años.
+
+**Importancia:** Este indicador refleja las uniones tempranas, que pueden asociarse a mayores niveles de vulnerabilidad, limitación en el acceso a educación y salud, y dependencia económica.
+
+
+#### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva
+
+**Población objetivo:** Mujeres entre 15 y 49 años casadas o en unión.
+
+**Variables utilizadas:**
+- `ms07_0720`: ¿Usted diría que el uso de anticoncepción/planificación familiar fue principalmente su decisión, principalmente de su pareja (esposo/compañero) o lo decidieron juntos?
+- `ms08_0825_A`:  ¿me puede decir quién tiene la última palabra en su casa: Usted, su pareja (esposo/compañero), ambos o alguien más.CUIDADO SALUD
+- `ms06_0610_b`: Consentimiento en la primera relación sexual.
+
+**Variables derivadas:**
+- `dec_met`: 1 si la mujer decide sola sobre el método anticonceptivo.
+- `dec_atmed`: 1 si decide sobre su atención médica.
+- `consentim_sex`: 1 si la relación sexual fue consentida.
+
+**Numerador:** Mujeres de 15 a 49 años de 15 a 49 años que cumplen simultáneamente los tres criterios anteriores.
+
+**Denominador:** Mujeres de 15 a 49 años de 15 a 49 años, casadas o en unión.
+
+**Desagregaciones:** Por departamento (`dam`), área (`area`) y años de estudio (`anoest`).
+
+**Importancia:** Este indicador refleja el nivel de autonomía reproductiva y capacidad de toma de decisiones en temas de salud sexual y reproductiva.
+
 
 
