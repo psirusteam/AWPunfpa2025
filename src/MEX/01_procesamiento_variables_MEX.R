@@ -114,6 +114,7 @@ base_modelomuj <- base_modelomuj %>%
       TRUE ~ NA_real_
     )
     
+    
   )
     
     
@@ -140,19 +141,19 @@ diseño_indicador1 <- diseño_mujeres %>%
 indicator1_area <- diseño_indicador1 %>%
   group_by(dam, area) %>%
   summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
+    prop_antes_18 = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
   )
 
 indicator1_etnia <- diseño_indicador1 %>%
   group_by(dam, etnia) %>%
   summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
+    prop_antes_18 = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
   )
 
 indicator1_anoest <- diseño_indicador1 %>%
   group_by(dam, anoest) %>%
   summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "se", na.rm = TRUE)*100
+    prop_antes_18 = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
   )
 
 
@@ -172,19 +173,19 @@ diseño_indicator2 <- diseño_mujeres %>%
 indicator2_area <- diseño_indicator2 %>%
   group_by(dam, area) %>%
   summarise(
-    indicator_2 = survey_mean(indicator_2, vartype = "se", na.rm = TRUE)*100
+    indicator_2 = survey_mean(indicator_2, vartype = "ci", na.rm = TRUE)*100
   )
 
 indicator2_etnia <- diseño_indicator2 %>%
   group_by(dam, etnia) %>%
   summarise(
-    indicator_2 = survey_mean(indicator_2, vartype = "se", na.rm = TRUE)*100
+    indicator_2 = survey_mean(indicator_2, vartype = "ci", na.rm = TRUE)*100
   )
 
 indicator2_anoest <- diseño_indicator2 %>%
   group_by(dam, anoest) %>%
   summarise(
-    indicator_2 = survey_mean(indicator_2, vartype = "se", na.rm = TRUE)*100
+    indicator_2 = survey_mean(indicator_2, vartype = "ci", na.rm = TRUE)*100
   )
 
 

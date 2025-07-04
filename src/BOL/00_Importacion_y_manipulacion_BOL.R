@@ -64,6 +64,7 @@ base_mujeres <- read_sav(file.path(input, "BOL/EDSA2023_Mujer.sav")) %>%
     ms06_0608,          # Edad al irse a vivir con su esposo o compañero
     ms06_0607_02_2,     #Año en que se fue a vivir con su primer esposo o compañero
     ms06_0607_01_2,     #Año en que se fue a vivir con su esposo o compañero
+    ms06_0602,          #Alguna vez ha tenido vpareja
     
     # Violencia psicológica y económica (últimos 12 meses)
     ms11_1105_B,        # Insultos

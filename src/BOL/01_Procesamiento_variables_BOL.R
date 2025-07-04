@@ -15,6 +15,7 @@ library(dplyr)
 library(survey)
 library(srvyr)
 library(ggplot2)
+library(haven)
 
 
 ################################################################################
@@ -33,6 +34,8 @@ load(file.path(output, "BOL/EDSA_modulo_mujeres_2023.RData"))
 ################################################################################
 ###---------------------------- Variables standardization--------------------###
 ################################################################################
+
+base_mujeres$ms07_0720 <- as.numeric((base_mujeres$ms07_0720))
 
 base_mujeres <- base_mujeres %>% mutate(
   
@@ -57,6 +60,7 @@ base_mujeres <- base_mujeres %>% mutate(
   dam = departamento,
   
   etnia = ms01_0108,
+  
   
   # Decisión de usar método anticonceptivo
   dec_met = case_when(
@@ -143,6 +147,12 @@ base_mujeres <- base_mujeres %>% mutate(
     is.na(edad_union1) ~ NA_real_,
     TRUE ~ 0), 
   
+  rela_algunavez = case_when(
+    ms06_0602 %in% c(1, 2) ~ 1,
+    ms06_0602 == 3 ~ 0,
+    TRUE ~ NA_real_
+  )
+  
   )
 
 
@@ -162,5 +172,61 @@ diseno_mujeres <- base_mujeres %>%
 ### Proporción de mujeres de 20-24 años que estuvieron casadas o en 
 ### unión antes de los 15 o 18 años.
 
+diseno_mujeres_20_24 <- diseno_mujeres %>%
+  filter(ms01_0101a >= 20 & ms01_0101a <= 24)
+
+indicator1_area <- diseno_mujeres_20_24 %>%
+  group_by(dam, area) %>%
+  summarise(
+    proporcion = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
+  )
+
+indicator1_etnia <- diseno_mujeres_20_24 %>%
+  group_by(dam, etnia) %>%
+  summarise(
+    proporcion = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
+  )
+
+indicator1_anoest <- diseno_mujeres_20_24 %>%
+  group_by(dam, anoest) %>%
+  summarise(
+    proporcion = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
+  )
+
+### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
+### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
+
+diseño_indicator2 <- diseno_mujeres %>%
+  filter(ms01_0101a >= 15, ms01_0101a <= 49) %>%
+  mutate(
+    decision_informada = case_when(
+      dec_met == 1 & dec_atmed == 1 & consentim_sex == 1 ~ 1,
+      is.na(dec_met) | is.na(dec_atmed) | is.na(consentim_sex) ~ NA_real_,
+      TRUE ~ 0
+    )
+  )
+
+
+indicator2_area <- diseño_indicator2 %>%
+  group_by(dam, area) %>%
+  summarise(
+    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100
+  )
+
+indicator2_etnia <- diseño_indicator2 %>%
+  group_by(dam, etnia) %>%
+  summarise(
+    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100
+  )
+
+indicator2_anoest <- diseño_indicator2 %>%
+  group_by(dam, anoest) %>%
+  summarise(
+    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100
+  )
+
+### Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna 
+### vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja 
+## actual o anterior en los últimos 12 meses (15-49 años)
 
 
