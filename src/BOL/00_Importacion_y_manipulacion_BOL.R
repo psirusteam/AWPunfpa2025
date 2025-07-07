@@ -118,3 +118,6 @@ ggsave(filename = file.path(output, "BOL/img/situacion_conyugal_mujeres_15_49.pn
        width = 7, height = 5, dpi = 300)
 
 save(base_mujeres, file = file.path(output, "BOL/EDSA_modulo_mujeres_2023.RData"))
+
+
+base_mujeres %>% distinct(ms06_0607_02_2, ms01_0101b_3, edad_union1) %>%  View() 

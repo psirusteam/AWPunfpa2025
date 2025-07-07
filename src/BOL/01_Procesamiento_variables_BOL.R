@@ -134,13 +134,9 @@ base_mujeres <- base_mujeres %>% mutate(
   
   #edad de su primera union con su esposo o compañero
   
-  edad_union1 = ms06_0607_02_2 - ms01_0101b_3,
-  
-  #Unión antes de los 15 y 18 años
-  union15 = case_when(
-    !is.na(edad_union1) & edad_union1 < 15 ~ 1,
-    is.na(edad_union1) ~ NA_real_,
-    TRUE ~ 0),
+  edad_union1 = case_when(
+    ms06_0607_02_2 %in% c(9998, 9999) | ms01_0101b_3 %in% c(9998, 9999) ~ NA_real_,
+    TRUE ~ ms06_0607_02_2 - ms01_0101b_3),
   
   union18 = case_when(
     !is.na(edad_union1) & edad_union1 < 18 ~ 1,
@@ -163,10 +159,13 @@ base_mujeres <- base_mujeres %>% mutate(
   )
 
 
+
 ################################################################################
 ###---------------------------- Indicators ----------------------------------###
 ################################################################################  
 options(survey.lonely.psu = "adjust")
+
+#agregar ponderador a fex
 
 diseno_mujeres <- base_mujeres %>%
   as_survey_design(
@@ -177,28 +176,40 @@ diseno_mujeres <- base_mujeres %>%
   )
 
 ### Proporción de mujeres de 20-24 años que estuvieron casadas o en 
-### unión antes de los 15 o 18 años.
+### unión antes de los 15 o 18 años. - REVISAR
 
 diseno_mujeres_20_24 <- diseno_mujeres %>%
   filter(ms01_0101a >= 20 & ms01_0101a <= 24)
 
+
 indicator1_area <- diseno_mujeres_20_24 %>%
-  group_by(dam, area) %>%
+  group_by(dam, area) %>% 
   summarise(
-    proporcion = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
-  )
+    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)*100,
+    n_obs = unweighted(n()),
+    casos_validos = unweighted(sum(!is.na(union18))),
+    filtro = unweighted(sum(union18 == 1, na.rm = TRUE))
+  ) 
+
+
+saveRDS(indicator1_area, file.path(output, "BOL/indicator1_area.rds"))
 
 indicator1_etnia <- diseno_mujeres_20_24 %>%
   group_by(dam, etnia) %>%
   summarise(
-    proporcion = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
+    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)*100
   )
+
+saveRDS(indicator1_etnia, file.path(output, "BOL/indicator1_etnia.rds"))
+
 
 indicator1_anoest <- diseno_mujeres_20_24 %>%
   group_by(dam, anoest) %>%
   summarise(
-    proporcion = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
+    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)*100
   )
+
+saveRDS(indicator1_anoest,file.path(output, "BOL/indicator1_anoest.rds"))
 
 ### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
@@ -217,8 +228,10 @@ diseño_indicator2 <- diseno_mujeres %>%
 indicator2_area <- diseño_indicator2 %>%
   group_by(dam, area) %>%
   summarise(
-    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100
+    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100,
   )
+
+saveRDS(indicator2_area, file.path(output, "BOL/indicator2_area.rds"))
 
 indicator2_etnia <- diseño_indicator2 %>%
   group_by(dam, etnia) %>%
@@ -226,11 +239,15 @@ indicator2_etnia <- diseño_indicator2 %>%
     indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100
   )
 
+saveRDS(indicator2_etnia, file.path(output, "BOL/indicator2_etnia.rds"))
+
 indicator2_anoest <- diseño_indicator2 %>%
   group_by(dam, anoest) %>%
   summarise(
     indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100
   )
+
+saveRDS(indicator2_anoest, file.path(output, "BOL/indicator2_anoest.rds"))
 
 ### Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna 
 ### vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja 
@@ -265,14 +282,20 @@ indicator3_area <- diseño_indicator3 %>%
     indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
   )
 
+saveRDS(indicator3_area, file.path(output, "BOL/indicator3_area.rds"))
+
 indicator3_etnia <- diseño_indicator3 %>%
   group_by(dam, etnia) %>%
   summarise(
     indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
   )
 
+saveRDS(indicator3_etnia, file.path(output, "BOL/indicator3_etnia.rds"))
+
 indicator3_anoest <- diseño_indicator3 %>%
   group_by(dam, anoest) %>%
   summarise(
     indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
   )
+
+saveRDS(indicator3_anoest, file.path(output, "BOL/indicator3_anoest.rds"))

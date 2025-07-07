@@ -6,7 +6,14 @@ date: "2025-07-02"
 ---
 
 ```{r setup, include=FALSE}
+library(dplyr)
+library(kableExtra)
 knitr::opts_chunk$set(echo = TRUE)
+b_path <- rprojroot::find_rstudio_root_file()
+
+input <- file.path(b_path, "input")
+output <- file.path(b_path, "output")
+src <- file.path(b_path, "src")
 ```
 
 ## Análisis de las últimas encuestas sobre salud y demografía en México, Bolivia y Colombia
@@ -134,7 +141,9 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 
 **Variables utilizadas:**
 - `ms01_0101a`: Edad actual.
+
 - `ms06_0607_02_2`: Año de primera unión.
+
 - `ms01_0101b_3`: Año de nacimiento.
 
 **Variables derivadas:**
@@ -153,8 +162,10 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 **Población objetivo:** Mujeres entre 15 y 49 años casadas o en unión.
 
 **Variables utilizadas:**
-- `ms07_0720`: ¿Usted diría que el uso de anticoncepción/planificación familiar fue principalmente su decisión, principalmente de su pareja (esposo/compañero) o lo decidieron juntos?
-- `ms08_0825_A`:  ¿me puede decir quién tiene la última palabra en su casa: Usted, su pareja (esposo/compañero), ambos o alguien más.CUIDADO SALUD
+- `ms07_0720`: ¿Usted diría que el uso de anticoncepción/planificación familiar fue principalmente su decisión, principalmente de su pareja (esposo/compañero) o lo decidieron juntos?.
+
+- `ms08_0825_A`:  ¿me puede decir quién tiene la última palabra en su casa: Usted, su pareja (esposo/compañero), ambos o alguien más.CUIDADO SALUD.
+
 - `ms06_0610_b`: Consentimiento en la primera relación sexual.
 
 **Variables derivadas:**
@@ -171,4 +182,19 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 **Importancia:** Este indicador refleja el nivel de autonomía reproductiva y capacidad de toma de decisiones en temas de salud sexual y reproductiva.
 
 
+## Resultados
+
+En esta sección se presentan los principales resultados derivados del análisis de los indicadores seleccionados. Los valores están desagregados por departamento (`dam`), área (`area`) y nivel educativo (`anoest`), y se expresan en porcentaje. Se incluye el coeficiente de variación (CV) para evaluar la precisión de las estimaciones.
+
+### Bolivia
+
+#### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
+
+#### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva.
+
+```{r}
+
+```
+
+**Fuente**: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).
 
