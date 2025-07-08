@@ -181,6 +181,13 @@ diseno_mujeres <- base_mujeres %>%
 diseno_mujeres_20_24 <- diseno_mujeres %>%
   filter(ms01_0101a >= 20 & ms01_0101a <= 24)
 
+indicator1_total <- diseno_mujeres_20_24 %>%
+  group_by(dam) %>% 
+  summarise(
+    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)
+  ) 
+
+saveRDS(indicator1_total, file.path(output, "BOL/indicator1_total.rds"))
 
 indicator1_area <- diseno_mujeres_20_24 %>%
   group_by(dam, area) %>% 
@@ -224,6 +231,13 @@ diseño_indicator2 <- diseno_mujeres %>%
     )
   )
 
+indicator2_total <- diseño_indicator2 %>%
+  group_by(dam) %>%
+  summarise(
+    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE),
+  )
+
+saveRDS(indicator2_total, file.path(output, "BOL/indicator_2total.rds"))
 
 indicator2_area <- diseño_indicator2 %>%
   group_by(dam, area) %>%
@@ -275,6 +289,14 @@ diseño_indicator3 <- diseno_mujeres %>%
       TRUE ~ NA_real_
     )
   )
+
+indicator3_total <- diseño_indicator3 %>%
+  group_by(dam) %>%
+  summarise(
+    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE),
+  )
+
+saveRDS(indicator3_total, file.path(output, "BOL/indicator3_total.rds"))
 
 indicator3_area <- diseño_indicator3 %>%
   group_by(dam, area) %>%

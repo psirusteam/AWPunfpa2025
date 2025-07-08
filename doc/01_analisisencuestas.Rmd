@@ -157,7 +157,7 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 **Importancia:** Este indicador refleja las uniones tempranas, que pueden asociarse a mayores niveles de vulnerabilidad, limitación en el acceso a educación y salud, y dependencia económica.
 
 
-#### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva
+#### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva.
 
 **Población objetivo:** Mujeres entre 15 y 49 años casadas o en unión.
 
@@ -179,9 +179,9 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 
 **Denominador:** Mujeres de 15 a 49 años de 15 a 49 años, casadas o en unión.
 
-**Desagregaciones:** Por departamento (`dam`), área (`area`) y años de estudio (`anoest`).
-
 **Importancia:** Este indicador refleja el nivel de autonomía reproductiva y capacidad de toma de decisiones en temas de salud sexual y reproductiva.
+
+#### Indicador 3. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva.
 
 
 ## Resultados
