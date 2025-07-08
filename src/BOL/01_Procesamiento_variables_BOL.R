@@ -185,7 +185,7 @@ diseno_mujeres_20_24 <- diseno_mujeres %>%
 indicator1_area <- diseno_mujeres_20_24 %>%
   group_by(dam, area) %>% 
   summarise(
-    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)*100,
+    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE),
     n_obs = unweighted(n()),
     casos_validos = unweighted(sum(!is.na(union18))),
     filtro = unweighted(sum(union18 == 1, na.rm = TRUE))
@@ -197,7 +197,7 @@ saveRDS(indicator1_area, file.path(output, "BOL/indicator1_area.rds"))
 indicator1_etnia <- diseno_mujeres_20_24 %>%
   group_by(dam, etnia) %>%
   summarise(
-    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)*100
+    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)
   )
 
 saveRDS(indicator1_etnia, file.path(output, "BOL/indicator1_etnia.rds"))
@@ -206,7 +206,7 @@ saveRDS(indicator1_etnia, file.path(output, "BOL/indicator1_etnia.rds"))
 indicator1_anoest <- diseno_mujeres_20_24 %>%
   group_by(dam, anoest) %>%
   summarise(
-    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)*100
+    proporcion = survey_mean(union18, vartype = "cv", na.rm = TRUE)
   )
 
 saveRDS(indicator1_anoest,file.path(output, "BOL/indicator1_anoest.rds"))
@@ -228,7 +228,7 @@ diseño_indicator2 <- diseno_mujeres %>%
 indicator2_area <- diseño_indicator2 %>%
   group_by(dam, area) %>%
   summarise(
-    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100,
+    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE),
   )
 
 saveRDS(indicator2_area, file.path(output, "BOL/indicator2_area.rds"))
@@ -236,7 +236,7 @@ saveRDS(indicator2_area, file.path(output, "BOL/indicator2_area.rds"))
 indicator2_etnia <- diseño_indicator2 %>%
   group_by(dam, etnia) %>%
   summarise(
-    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100
+    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)
   )
 
 saveRDS(indicator2_etnia, file.path(output, "BOL/indicator2_etnia.rds"))
@@ -244,7 +244,7 @@ saveRDS(indicator2_etnia, file.path(output, "BOL/indicator2_etnia.rds"))
 indicator2_anoest <- diseño_indicator2 %>%
   group_by(dam, anoest) %>%
   summarise(
-    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)*100
+    indicator_2 = survey_mean(decision_informada, vartype = "cv", na.rm = TRUE)
   )
 
 saveRDS(indicator2_anoest, file.path(output, "BOL/indicator2_anoest.rds"))
@@ -279,7 +279,7 @@ diseño_indicator3 <- diseno_mujeres %>%
 indicator3_area <- diseño_indicator3 %>%
   group_by(dam, area) %>%
   summarise(
-    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
+    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)
   )
 
 saveRDS(indicator3_area, file.path(output, "BOL/indicator3_area.rds"))
@@ -287,7 +287,7 @@ saveRDS(indicator3_area, file.path(output, "BOL/indicator3_area.rds"))
 indicator3_etnia <- diseño_indicator3 %>%
   group_by(dam, etnia) %>%
   summarise(
-    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
+    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)
   )
 
 saveRDS(indicator3_etnia, file.path(output, "BOL/indicator3_etnia.rds"))
@@ -295,7 +295,7 @@ saveRDS(indicator3_etnia, file.path(output, "BOL/indicator3_etnia.rds"))
 indicator3_anoest <- diseño_indicator3 %>%
   group_by(dam, anoest) %>%
   summarise(
-    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)*100
+    indicator_3 = survey_mean(violencia_pareja_ult12m, vartype = "cv", na.rm = TRUE)
   )
 
 saveRDS(indicator3_anoest, file.path(output, "BOL/indicator3_anoest.rds"))

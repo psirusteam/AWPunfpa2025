@@ -170,7 +170,9 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 
 **Variables derivadas:**
 - `dec_met`: 1 si la mujer decide sola sobre el método anticonceptivo.
+
 - `dec_atmed`: 1 si decide sobre su atención médica.
+
 - `consentim_sex`: 1 si la relación sexual fue consentida.
 
 **Numerador:** Mujeres de 15 a 49 años de 15 a 49 años que cumplen simultáneamente los tres criterios anteriores.
@@ -186,7 +188,7 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 
 En esta sección se presentan los principales resultados derivados del análisis de los indicadores seleccionados. Los valores están desagregados por departamento (`dam`), área (`area`) y nivel educativo (`anoest`), y se expresan en porcentaje. Se incluye el coeficiente de variación (CV) para evaluar la precisión de las estimaciones.
 
-### Bolivia
+### Bolivia 
 
 #### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
 
