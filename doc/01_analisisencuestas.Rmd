@@ -2,12 +2,16 @@
 title: Análisis de las últimas encuestas sobre salud y demografía en México, Bolivia
   y Colombia”
 output: word_document
-date: "2025-07-02"
+date: "2025-07-09"
 ---
 
 ```{r setup, include=FALSE}
 library(dplyr)
 library(kableExtra)
+library(flextable)
+library(stringr)
+library(haven)
+
 knitr::opts_chunk$set(echo = TRUE)
 b_path <- rprojroot::find_rstudio_root_file()
 
@@ -24,6 +28,17 @@ Este informe presenta un análisis descriptivo de la estructura y el diseño mue
 
 El módulo de mujeres de la Encuesta Nacional de la Dinámica Demográfica (ENADID 2023) está orientado a recopilar información detallada sobre aspectos clave de la vida reproductiva y social de las mujeres mexicanas de 15 a 54 años. Este módulo profundiza en temas como fecundidad, planificación familiar, salud sexual y reproductiva, así como experiencias de unión y convivencia. Su objetivo es generar datos que permitan comprender con mayor precisión las condiciones y decisiones que enfrentan las mujeres en el contexto demográfico actual del país.
 
+- **Unidad de observación:** Mujer de 15 a 54 años entrevistada directamente en la vivienda seleccionada.
+
+- **Tamaño de muestra:** 119,537 viviendas particulares distribuidas en todo el país.
+
+- **Diseño muestral:** Probabilístico, estratificado, multietápico y por conglomerados.
+
+- **Ámbitos de cobertura:** Urbano alto, complemento urbano y rural, con estratificación geográfica y sociodemográfica.
+
+- **Factores de expansión:** Ajustados por no respuesta y calibrados por estimaciones de población; incluyen corrección específica para el módulo de mujeres (15–54 años).
+
+
 #### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años
 
 **Población objetivo:** Mujeres entre 20 y 24 años.
@@ -35,14 +50,11 @@ El módulo de mujeres de la Encuesta Nacional de la Dinámica Demográfica (ENAD
 
 **Variables derivadas:**
 
-- `union15`: Variable binaria que toma el valor 1 si la mujer se unió antes de los 15 años, y 0 en caso contrario.
 - `union18`: Variable binaria que toma el valor 1 si la mujer se unió antes de los 18 años, y 0 en caso contrario.
 
 **Numerador:** Número de mujeres de 20 a 24 años que estuvieron casadas o unidas antes de los 18 años.
 
 **Denominador:** Total de mujeres de 20 a 24 años.
-
-**Desagregaciones:** Se presenta la proporción por entidad federativa (`dam`), área (`area`) y nivel educativo (`anoest`).
 
 **Importancia:** Este indicador refleja las uniones tempranas, que pueden asociarse a mayores niveles de vulnerabilidad, limitación en el acceso a educación y salud, y dependencia económica.
 
@@ -105,8 +117,6 @@ El módulo de mujeres de la Encuesta Nacional de la Dinámica Demográfica (ENAD
 3. Haber tomado por sí mismas la decisión sobre el número de hijas o hijos que deseaban tener.
 
 **Denominador:** Total de mujeres de 15 a 49 años, casadas o en unión libre.
-
-**Desagregaciones:** Resultados por entidad federativa (`dam`), área (`area`) y nivel educativo (`anoest`).
 
 **Nota metodológica:** Las mujeres con datos faltantes en alguna de las tres variables fueron excluidas del numerador. El indicador refleja el grado de autonomía reproductiva y toma de decisiones de las mujeres.
 
@@ -181,7 +191,37 @@ El universo de estudio corresponde a los hogares particulares ocupados en los nu
 
 **Importancia:** Este indicador refleja el nivel de autonomía reproductiva y capacidad de toma de decisiones en temas de salud sexual y reproductiva.
 
-#### Indicador 3. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva.
+#### Indicador 3.Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses (15-49 años).
+
+**Población objetivo:**  
+Mujeres y niñas de 15 a 49 años que hayan tenido alguna vez una relación de pareja.
+
+**Variables utilizadas (tipos de violencia):**  
+- `insultos`: fue insultada o se sintió humillada.  
+- `encierros`: fue encerrada o aislada.  
+- `humillaciones`: fue humillada por su pareja.  
+- `amenazas_abandono`: fue amenazada con ser abandonada.  
+- `amenazas_hijos`: fue amenazada con quitarle a sus hijos o hacerles daño.  
+- `romper_objetos`: su pareja rompió objetos como forma de intimidación.  
+- `amenaza_economica`: fue amenazada económicamente.  
+- `control_economico`: su pareja controla sus recursos o acceso a dinero.  
+- `amenaza_sex`: fue forzada o presionada sexualmente.  
+- `amenaza_muerte`: recibió amenazas de muerte.
+
+**Variable derivada:**  
+- `violencia_pareja_ult12m`:  
+  - Valor 1 si la mujer reporta al menos una forma de violencia.  
+  - Valor 0 si no reporta ninguna.  
+  - Valor NA en caso de datos faltantes.
+
+**Numerador:**  
+Mujeres de 15 a 49 años que reportaron al menos una forma de violencia por parte de su pareja actual o anterior en los últimos 12 meses.
+
+**Denominador:**  
+Mujeres de 15 a 49 años que han tenido alguna relación de pareja.
+
+**Importancia:**  
+Este indicador permite dimensionar la prevalencia de violencia de pareja en mujeres en edad reproductiva, visibilizando situaciones de riesgo que requieren atención y acción desde las políticas públicas de prevención y protección frente a la violencia de género.
 
 
 ## Resultados
@@ -194,9 +234,226 @@ En esta sección se presentan los principales resultados derivados del análisis
 
 #### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva.
 
-```{r}
+```{r tabla-indicador2-1, echo=FALSE}
+tabla_ind2 <- readRDS(file.path(output, "Bol/indicator_2total.rds")) %>%
+  rename(
+    Proporcion = indicator_2,
+    CV = indicator_2_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
 
+knitr::kable(
+  tabla_ind2,
+  caption = "Tabla 2. Proporción de mujeres que toman decisiones informadas (%)"
+)
 ```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+```{r tabla-indicador2-2, echo=FALSE}
+tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_area.rds")) %>%
+  rename(
+    Proporcion = indicator_2,
+    CV = indicator_2_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    area = case_when(
+         area == 1 ~ "Urbano",
+        area == 2 ~ "Rural",
+        TRUE ~ "Sin clasificar"
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
 
-**Fuente**: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).
+knitr::kable(
+  tabla_ind2,
+  caption = "Tabla 3. Proporción de mujeres que toman decisiones informadas por área (%)"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
+
+### Figura 1. Mapa del Indicador número 2 desagregado por área geográfica
+```{r incluir-imagen-mapa1, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_area.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+```{r tabla-indicador2-4, echo=FALSE}
+tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_etnia.rds")) %>%
+  rename(
+    Proporcion = indicator_2,
+    CV = indicator_2_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    etnia = case_when(
+      etnia == 1 ~ "Indigena o Afroboliviana",
+      etnia == 2 ~ "No pertenece",
+      etnia == 3 ~ "No es boliviana",
+      TRUE ~ NA_character_
+    ),
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  )
+
+knitr::kable(
+  tabla_ind2,
+  caption = "Tabla 4. Proporcion de mujeres que toman decisiones informadas por etnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+### Figura 2. Mapa del Indicador número 2 desagregado por étnia
+```{r incluir-imagen-mapa2, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+```{r tabla-indicador2-5, echo=FALSE}
+tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_anoest.rds")) %>%
+  rename(
+    Proporcion = indicator_2,
+    CV = indicator_2_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    anoest = case_when(
+      anoest == 1 ~ "Sin educacion",
+      anoest == 2 ~ "1 - 6 anos",
+      anoest == 3 ~ "7 - 12 anos",
+      anoest == 4 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind2,
+  caption = "Tabla 4. Proporción de mujeres que toman decisiones informadas por año de estudios (%)"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+### Figura 3. Mapa del Indicador número 2 desagregado por años de estudio
+
+```{r incluir-imagen-mapa3, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_anoest.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+#### Indicador 3. Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna  vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses (15-49 años)
+
+```{r tabla-indicador3-1, echo=FALSE}
+tabla_ind2 <- readRDS(file.path(output, "Bol/indicator_3total.rds")) %>%
+  rename(
+    Proporcion = indicator_3,
+    CV = indicator_3_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind2,
+  caption = "Tabla 2. Proporción de mujeres que toman decisiones informadas (%)"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+```{r tabla-indicador2-2, echo=FALSE}
+tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_area.rds")) %>%
+  rename(
+    Proporcion = indicator_2,
+    CV = indicator_2_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    area = case_when(
+         area == 1 ~ "Urbano",
+        area == 2 ~ "Rural",
+        TRUE ~ "Sin clasificar"
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind2,
+  caption = "Tabla 3. Proporción de mujeres que toman decisiones informadas por área (%)"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+
+### Figura 1. Mapa del Indicador número 2 desagregado por área geográfica
+```{r incluir-imagen-mapa1, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_area.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+```{r tabla-indicador2-4, echo=FALSE}
+tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_etnia.rds")) %>%
+  rename(
+    Proporcion = indicator_2,
+    CV = indicator_2_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    etnia = case_when(
+      etnia == 1 ~ "Indigena o Afroboliviana",
+      etnia == 2 ~ "No pertenece",
+      etnia == 3 ~ "No es boliviana",
+      TRUE ~ NA_character_
+    ),
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  )
+
+knitr::kable(
+  tabla_ind2,
+  caption = "Tabla 4. Proporcion de mujeres que toman decisiones informadas por etnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+### Figura 2. Mapa del Indicador número 2 desagregado por étnia
+```{r incluir-imagen-mapa2, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+```{r tabla-indicador2-5, echo=FALSE}
+tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_anoest.rds")) %>%
+  rename(
+    Proporcion = indicator_2,
+    CV = indicator_2_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    anoest = case_when(
+      anoest == 1 ~ "Sin educacion",
+      anoest == 2 ~ "1 - 6 anos",
+      anoest == 3 ~ "7 - 12 anos",
+      anoest == 4 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind2,
+  caption = "Tabla 4. Proporción de mujeres que toman decisiones informadas por año de estudios (%)"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+### Figura 3. Mapa del Indicador número 2 desagregado por años de estudio
+
+```{r incluir-imagen-mapa3, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_anoest.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
