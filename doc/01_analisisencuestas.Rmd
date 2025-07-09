@@ -232,6 +232,119 @@ En esta sección se presentan los principales resultados derivados del análisis
 
 #### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
 
+```{r tabla-indicador1-1, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_total.rds")) %>%
+  rename(
+    Proporcion = proporcion,
+    CV = proporcion_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 1. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+```{r tabla-indicador1-2, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_area.rds")) %>%
+  rename(
+    Proporcion = proporcion,
+    CV = proporcion_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    area = case_when(
+         area == 1 ~ "Urbano",
+        area == 2 ~ "Rural",
+        TRUE ~ "Sin clasificar"
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 2. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por area."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+
+### Figura 1. Mapa del Indicador número 1 desagregado por área geográfica
+```{r incluir-imagen-mapa1, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador1_area.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+```{r tabla-indicador1-3, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_etnia.rds")) %>%
+  rename(
+    Proporcion = proporcion,
+    CV = proporcion_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    etnia = case_when(
+      etnia == 1 ~ "Indigena o Afroboliviana",
+      etnia == 2 ~ "No pertenece",
+      etnia == 3 ~ "No es boliviana",
+      TRUE ~ NA_character_
+    ),
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  )
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 3. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por etnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+### Figura 2. Mapa del Indicador número 1 desagregado por étnia
+```{r incluir-imagen-mapa2, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador1_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+```{r tabla-indicador1-4, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_anoest.rds")) %>%
+  rename(
+    Proporcion = proporcion,
+    CV = proporcion_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    anoest = case_when(
+      anoest == 1 ~ "Sin educacion",
+      anoest == 2 ~ "1 - 6 anos",
+      anoest == 3 ~ "7 - 12 anos",
+      anoest == 4 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 4. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+### Figura 3. Mapa del Indicador número 1 desagregado por años de estudio
+
+```{r incluir-imagen-mapa3, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador1_anoest.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+
+
 #### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva.
 
 ```{r tabla-indicador2-1, echo=FALSE}
@@ -248,7 +361,7 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator_2total.rds")) %>%
 
 knitr::kable(
   tabla_ind2,
-  caption = "Tabla 2. Proporción de mujeres que toman decisiones informadas (%)"
+  caption = "Tabla 5. Proporción de mujeres que toman decisiones informadas (%)"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -271,19 +384,19 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_area.rds")) %>%
 
 knitr::kable(
   tabla_ind2,
-  caption = "Tabla 3. Proporción de mujeres que toman decisiones informadas por área (%)"
+  caption = "Tabla 6. Proporción de mujeres que toman decisiones informadas por área (%)"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
 
-### Figura 1. Mapa del Indicador número 2 desagregado por área geográfica
-```{r incluir-imagen-mapa1, echo=FALSE, out.width="100%"}
+### Figura 4. Mapa del Indicador número 2 desagregado por área geográfica
+```{r incluir-imagen-mapa4, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_area.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
-```{r tabla-indicador2-4, echo=FALSE}
+```{r tabla-indicador2-3, echo=FALSE}
 tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_etnia.rds")) %>%
   rename(
     Proporcion = indicator_2,
@@ -303,18 +416,18 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_etnia.rds")) %>%
 
 knitr::kable(
   tabla_ind2,
-  caption = "Tabla 4. Proporcion de mujeres que toman decisiones informadas por etnia"
+  caption = "Tabla 7. Proporcion de mujeres que toman decisiones informadas por etnia"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
-### Figura 2. Mapa del Indicador número 2 desagregado por étnia
-```{r incluir-imagen-mapa2, echo=FALSE, out.width="100%"}
+### Figura 5. Mapa del Indicador número 2 desagregado por étnia
+```{r incluir-imagen-mapa5, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_etnia.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
-```{r tabla-indicador2-5, echo=FALSE}
+```{r tabla-indicador2-4, echo=FALSE}
 tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_anoest.rds")) %>%
   rename(
     Proporcion = indicator_2,
@@ -333,14 +446,14 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_anoest.rds")) %>%
 
 knitr::kable(
   tabla_ind2,
-  caption = "Tabla 4. Proporción de mujeres que toman decisiones informadas por año de estudios (%)"
+  caption = "Tabla 8. Proporción de mujeres que toman decisiones informadas por año de estudios (%)"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
-### Figura 3. Mapa del Indicador número 2 desagregado por años de estudio
+### Figura 6. Mapa del Indicador número 2 desagregado por años de estudio
 
-```{r incluir-imagen-mapa3, echo=FALSE, out.width="100%"}
+```{r incluir-imagen-mapa6, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_anoest.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -348,7 +461,7 @@ knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_anoest.png
 #### Indicador 3. Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna  vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses (15-49 años)
 
 ```{r tabla-indicador3-1, echo=FALSE}
-tabla_ind2 <- readRDS(file.path(output, "Bol/indicator_3total.rds")) %>%
+tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_total.rds")) %>%
   rename(
     Proporcion = indicator_3,
     CV = indicator_3_cv
@@ -360,16 +473,17 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator_3total.rds")) %>%
   ) 
 
 knitr::kable(
-  tabla_ind2,
-  caption = "Tabla 2. Proporción de mujeres que toman decisiones informadas (%)"
+  tabla_ind3,
+  caption = "Tabla 9. Proporción de mujeres 15-49 años que sufrieron violencia de pareja"
 )
 ```
+
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
-```{r tabla-indicador2-2, echo=FALSE}
-tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_area.rds")) %>%
+```{r tabla-indicador3-2, echo=FALSE}
+tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_area.rds")) %>%
   rename(
-    Proporcion = indicator_2,
-    CV = indicator_2_cv
+    Proporcion = indicator_3,
+    CV = indicator_3_cv
   ) %>%
   mutate(
     Proporcion = round(Proporcion * 100, 1),
@@ -383,24 +497,24 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_area.rds")) %>%
   ) 
 
 knitr::kable(
-  tabla_ind2,
-  caption = "Tabla 3. Proporción de mujeres que toman decisiones informadas por área (%)"
+  tabla_ind3,
+  caption = "Tabla 10. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por área"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
 
-### Figura 1. Mapa del Indicador número 2 desagregado por área geográfica
-```{r incluir-imagen-mapa1, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_area.png"))
+### Figura 7. Mapa del Indicador número 3 desagregado por área geográfica
+```{r incluir-imagen-mapa7, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador3_area.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
-```{r tabla-indicador2-4, echo=FALSE}
-tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_etnia.rds")) %>%
+```{r tabla-indicador3-3, echo=FALSE}
+tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_etnia.rds")) %>%
   rename(
-    Proporcion = indicator_2,
-    CV = indicator_2_cv
+    Proporcion = indicator_3,
+    CV = indicator_3_cv
   ) %>%
   mutate(
     Proporcion = round(Proporcion * 100, 1),
@@ -415,23 +529,23 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_etnia.rds")) %>%
   )
 
 knitr::kable(
-  tabla_ind2,
-  caption = "Tabla 4. Proporcion de mujeres que toman decisiones informadas por etnia"
+  tabla_ind3,
+  caption = "Tabla 11. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por etnia"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
-### Figura 2. Mapa del Indicador número 2 desagregado por étnia
-```{r incluir-imagen-mapa2, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_etnia.png"))
+### Figura 8. Mapa del Indicador número 3 desagregado por étnia
+```{r incluir-imagen-mapa8, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador3_etnia.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
-```{r tabla-indicador2-5, echo=FALSE}
-tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_anoest.rds")) %>%
+```{r tabla-indicador3-4, echo=FALSE}
+tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_anoest.rds")) %>%
   rename(
-    Proporcion = indicator_2,
-    CV = indicator_2_cv
+    Proporcion = indicator_3,
+    CV = indicator_3_cv
   ) %>%
   mutate(
     Proporcion = round(Proporcion * 100, 1),
@@ -445,15 +559,15 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_anoest.rds")) %>%
   ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
 
 knitr::kable(
-  tabla_ind2,
-  caption = "Tabla 4. Proporción de mujeres que toman decisiones informadas por año de estudios (%)"
+  tabla_ind3,
+  caption = "Tabla 12. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por año de estudio"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
-### Figura 3. Mapa del Indicador número 2 desagregado por años de estudio
+### Figura 9. Mapa del Indicador número 3 desagregado por años de estudio
 
-```{r incluir-imagen-mapa3, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_anoest.png"))
+```{r incluir-imagen-mapa9, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador3_anoest.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
