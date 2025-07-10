@@ -64,12 +64,7 @@ base_modelomuj <- base_modelomuj %>%
 
     #Unión antes de los 15 y 18 años
     
-    edad_union <- pmin(edpruni, edprmat, na.rm = TRUE), 
-    
-    union15 = case_when(
-      !is.na(edad_union) & edad_union < 15 ~ 1,
-      is.na(edad_union) ~ NA_real_,
-      TRUE ~ 0),
+    edad_union = pmin(edpruni, edprmat, na.rm = TRUE),
     
     union18 = case_when(
       !is.na(edad_union) & edad_union < 18 ~ 1,
@@ -138,24 +133,39 @@ diseño_mujeres <- base_modelomuj %>%
 diseño_indicador1 <- diseño_mujeres %>%
   filter(edad_muj >= 20 & edad_muj <= 24) 
 
+indicator1_total <- diseño_indicador1 %>%
+  group_by(dam) %>%
+  summarise(
+    prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
+  )
+
+
+saveRDS(indicator1_total, file.path(output, "MEX/indicator1_total.rds"))
+
+
 indicator1_area <- diseño_indicador1 %>%
   group_by(dam, area) %>%
   summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
+    prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
   )
+
+saveRDS(indicator1_area, file.path(output, "MEX/indicator1_area.rds"))
 
 indicator1_etnia <- diseño_indicador1 %>%
   group_by(dam, etnia) %>%
   summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
+    prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
   )
+
+saveRDS(indicator1_etnia, file.path(output, "MEX/indicator1_etnia.rds"))
 
 indicator1_anoest <- diseño_indicador1 %>%
   group_by(dam, anoest) %>%
   summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "ci", na.rm = TRUE)*100
+    prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
   )
 
+saveRDS(indicator1_anoest, file.path(output, "MEX/indicator1_anoest.rds"))
 
 ### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 

@@ -228,9 +228,122 @@ Este indicador permite dimensionar la prevalencia de violencia de pareja en muje
 
 En esta sección se presentan los principales resultados derivados del análisis de los indicadores seleccionados. Los valores están desagregados por departamento (`dam`), área (`area`) y nivel educativo (`anoest`), y se expresan en porcentaje. Se incluye el coeficiente de variación (CV) para evaluar la precisión de las estimaciones.
 
+### México 
+
+#### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
+
+```{r tabla-indicador11-1, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_total.rds")) %>%
+  rename(
+    Proporcion = prop_antes_18,
+    CV = prop_antes_18_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 1. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+```{r tabla-indicador11-2, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_area.rds")) %>%
+  rename(
+    Proporcion = prop_antes_18,
+    CV = prop_antes_18_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    area = case_when(
+         area == 1 ~ "Urbano",
+        area == 2 ~ "Rural",
+        TRUE ~ "Sin clasificar"
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 2. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por area."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+### Figura 1. Mapa del Indicador número 1 desagregado por área geográfica
+```{r incluir-imagen-mapa12, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_area.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+```{r tabla-indicador11-3, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_etnia.rds")) %>%
+  rename(
+    Proporcion = prop_antes_18,
+    CV = prop_antes_18_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    etnia = case_when(
+         etnia == 1 ~ "Afro",
+        etnia == 2 ~ "Indigena",
+        etnia == 3 ~ "Otros"
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 3. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por étnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+### Figura 2. Mapa del Indicador número 1 desagregado por étnia
+```{r incluir-imagen-mapa11, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+```{r tabla-indicador11-4, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_anoest.rds")) %>%
+  rename(
+    Proporcion = prop_antes_18,
+    CV = prop_antes_18_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    anoest = case_when(
+      anoest == 1 ~ "Sin educacion",
+      anoest == 2 ~ "1 - 6 anos",
+      anoest == 3 ~ "7 - 12 anos",
+      anoest == 4 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 4. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+### Figura 3. Mapa del Indicador número 1 desagregado por años de estudio
+```{r incluir-imagen-mapa14, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_anoest.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+
 ### Bolivia 
 
 #### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
+
 
 ```{r tabla-indicador1-1, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_total.rds")) %>%
@@ -250,6 +363,9 @@ knitr::kable(
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+La tabla anterior debe interpretarse con cautela debido a varias limitaciones estadísticas. En algunos dominios (por ejemplo, dam 01, 03, 04 y 06) se observan proporciones extremas (0% o 100%), lo que sugiere posibles tamaños muestrales reducidos o falta de variabilidad, lo cual impide obtener estimaciones estables. Asimismo, en dam 01 y 04 no se logró calcular el coeficiente de variación (CV), lo que puede indicar ausencia de datos o casos únicos. En otros casos, como dam 02 y 07, los CV son superiores al 50%, lo que evidencia alta imprecisión en las estimaciones. Estos resultados deben considerarse indicativos, mas no concluyentes.
+
 ```{r tabla-indicador1-2, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_area.rds")) %>%
   rename(
@@ -274,6 +390,7 @@ knitr::kable(
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
+La desagregación del indicador por área urbana y rural permite observar diferencias importantes entre regiones. Sin embargo, algunas proporciones extremas (como 0% o 100%) junto con coeficientes de variación (CV) no disponibles (NaN) o excesivamente altos (por encima del 30%) reflejan limitaciones de representatividad y precisión estadística, asociadas principalmente al bajo número de casos válidos en ciertas combinaciones de departamento y área.
 
 ### Figura 1. Mapa del Indicador número 1 desagregado por área geográfica
 ```{r incluir-imagen-mapa1, echo=FALSE, out.width="100%"}
@@ -306,6 +423,8 @@ knitr::kable(
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
+La desagregación del indicador por pertenencia étnica muestra diferencias aparentes en la proporción de mujeres jóvenes unidas antes de los 15 o 18 años entre grupos étnicos. No obstante, muchos de los coeficientes de variación (CV) son inexistentes o extremadamente elevados (por ejemplo, superiores al 100%), lo cual indica una alta incertidumbre en las estimaciones. Estos problemas se deben, en gran medida, a tamaños muestrales reducidos por grupo étnico en varios departamentos. Por ejemplo, en los casos donde la proporción es 0% o 100%, el CV no puede calcularse de forma confiable, y los resultados pueden estar influenciados por la ausencia de casos o la presencia de solo uno o dos. 
+
 ### Figura 2. Mapa del Indicador número 1 desagregado por étnia
 ```{r incluir-imagen-mapa2, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador1_etnia.png"))
@@ -336,6 +455,8 @@ knitr::kable(
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
+La desagregación del indicador según los años de educación muestra que las mujeres jóvenes con menor nivel educativo tienden a presentar mayores proporciones de uniones tempranas. Sin embargo, los resultados deben leerse con cautela debido a la alta proporción de valores perdidos o sin varianza, reflejada en los valores faltantes (NaN) del coeficiente de variación (CV). Además, algunos casos presentan valores extremos como 100%, lo que sugiere tamaños muestrales muy pequeños que no permiten inferencias robustas.
+
 ### Figura 3. Mapa del Indicador número 1 desagregado por años de estudio
 
 ```{r incluir-imagen-mapa3, echo=FALSE, out.width="100%"}
@@ -365,6 +486,9 @@ knitr::kable(
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+La proporción de mujeres que toman decisiones informadas varía significativamente entre departamentos. Los valores más bajos se observan en los departamentos 04 y 05, con proporciones inferiores al 8% y coeficientes de variación (CV) relativamente altos, lo que indica poca precisión en las estimaciones. Por el contrario, los departamentos 07 y 08 presentan las proporciones más altas, con más del 19% de mujeres tomando decisiones informadas y CVs por debajo del 10%, lo cual otorga mayor confiabilidad a estos resultados.
+
 ```{r tabla-indicador2-2, echo=FALSE}
 tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_area.rds")) %>%
   rename(
@@ -388,6 +512,8 @@ knitr::kable(
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+La capacidad de tomar decisiones informadas entre mujeres de 20 a 24 años presenta variaciones importantes entre zonas urbanas y rurales. En general, las zonas urbanas tienden a mostrar proporciones más altas y coeficientes de variación (CV) más bajos, lo que implica mayor precisión en las estimaciones. Destacan los departamentos 07 y 08 con porcentajes superiores al 15% tanto en áreas urbanas como rurales, y CVs por debajo del 20%, lo que refuerza la confiabilidad de los datos. En contraste, se observan valores bajos y alta incertidumbre (CVs superiores al 40%) en zonas rurales de departamentos como 02, 04 y 05, lo que limita la capacidad del análisis.
 
 
 ### Figura 4. Mapa del Indicador número 2 desagregado por área geográfica
@@ -421,6 +547,8 @@ knitr::kable(
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
+La proporción de mujeres que toman decisiones informadas muestra diferencias por pertenencia étnica y departamento. Se observa que las mujeres indígenas o afrobolivianas tienden a registrar proporciones menores y con mayor variabilidad estadística, reflejada en CVs elevados, especialmente en departamentos como el 06 y 07. Por otra parte, los valores asociados al grupo “No es boliviana” deben interpretarse con precaución debido a posibles tamaños muestrales reducidos o valores extremos (como el 100% en algunos departamentos), lo que puede inflar el CV o generar datos faltantes (NaN). 
+
 ### Figura 5. Mapa del Indicador número 2 desagregado por étnia
 ```{r incluir-imagen-mapa5, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_etnia.png"))
@@ -451,6 +579,8 @@ knitr::kable(
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
+La proporción de mujeres de 20 a 24 años que toman decisiones informadas tiende a aumentar con el nivel educativo alcanzado. Se identifican valores notablemente bajos y coeficientes de variación altos (CV > 30%) entre quienes no tienen educación formal o solo alcanzaron entre 1 y 6 años de estudio, especialmente en departamentos como el 02, 04, 05 y 06. Por el contrario, las mujeres con más de 12 años de educación registran proporciones más elevadas y estables, con CV menores a 25% en varios departamentos, indicando mayor precisión en las estimaciones.
+
 ### Figura 6. Mapa del Indicador número 2 desagregado por años de estudio
 
 ```{r incluir-imagen-mapa6, echo=FALSE, out.width="100%"}
@@ -459,6 +589,7 @@ knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_anoest.png
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
 #### Indicador 3. Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna  vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses (15-49 años)
+
 
 ```{r tabla-indicador3-1, echo=FALSE}
 tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_total.rds")) %>%
@@ -477,8 +608,10 @@ knitr::kable(
   caption = "Tabla 9. Proporción de mujeres 15-49 años que sufrieron violencia de pareja"
 )
 ```
-
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+La proporción de mujeres entre 15 y 49 años que reportaron haber sufrido violencia de pareja en los últimos 12 meses varía entre un 15% y un 31.3% según el departamento. En la mayoría de los casos, los coeficientes de variación (CV) se mantienen por debajo del 20%, lo que indica una aceptable precisión en las estimaciones. Los valores más altos se registran en los departamentos 04, 05, y 07, superando el 30%, lo que sugiere una alta prevalencia de violencia de pareja en estos territorios. Por el contrario, el departamento 09 presenta la proporción más baja (15%) pero con un CV de 22.1%, lo que sugiere cautela al interpretar este resultado.
+
 ```{r tabla-indicador3-2, echo=FALSE}
 tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_area.rds")) %>%
   rename(
@@ -503,6 +636,9 @@ knitr::kable(
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
+Al desagregar la proporción de mujeres de 15 a 49 años que reportaron haber sufrido violencia de pareja según área de residencia, se observan diferencias marcadas entre zonas urbanas y rurales. En general, las áreas urbanas presentan proporciones consistentemente más altas, con valores que oscilan entre el 27% y el 34.7%.
+
+En contraste, las zonas rurales muestran mayor variabilidad y menor precisión, con algunos departamentos reportando CV superiores al 40% (como el departamento 07) y un caso con valor de 0% y CV indefinido (NaN) en el departamento 09, lo que sugiere una insuficiencia de datos o ausencia de casos válidos.
 
 ### Figura 7. Mapa del Indicador número 3 desagregado por área geográfica
 ```{r incluir-imagen-mapa7, echo=FALSE, out.width="100%"}
@@ -535,6 +671,12 @@ knitr::kable(
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
+Los datos muestran que las mujeres indígenas o afrobolivianas presentan niveles altos de violencia de pareja reportada, con proporciones que alcanzan hasta un 38.5% en algunos departamentos. Sin embargo, estas estimaciones presentan altos coeficientes de variación (CV), como ocurre en el caso del departamento 06, donde el CV supera el 90%, lo que indica baja precisión y necesidad de cautela en la interpretación.
+
+Por otro lado, las mujeres que no se identifican como pertenecientes a ningún grupo étnico tienden a presentar proporciones similares o incluso mayores en ciertos casos, con CV más bajos (por ejemplo, 15.7% en el departamento 06), lo que sugiere mayor precisión en estas estimaciones.
+
+También se identifican casos con proporciones extremas (0% o 100%) y CV de 0 o indefinido (NaN), lo que indica ausencia de casos válidos o tamaños muestrales muy reducidos, como en algunos grupos etiquetados como “No es boliviana”, los cuales deben ser interpretados con reserva.
+
 ### Figura 8. Mapa del Indicador número 3 desagregado por étnia
 ```{r incluir-imagen-mapa8, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador3_etnia.png"))
@@ -564,6 +706,10 @@ knitr::kable(
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+Los resultados muestran una tendencia donde las mujeres con niveles intermedios de educación (7 a 12 años) presentan mayores proporciones de haber experimentado violencia de pareja, superando el 30% en varios departamentos. En contraste, las mujeres sin educación o con estudios superiores presentan proporciones menores, aunque en algunos casos con coeficientes de variación (CV) muy elevados.
+
+En particular, destacan valores de CV superiores al 30% e incluso por encima del 70% en observaciones de mujeres sin educación, lo que limita la precisión y confiabilidad de estos resultados. Esta alta variabilidad puede deberse a tamaños de muestra reducidos o a una alta dispersión de respuestas.
 
 ### Figura 9. Mapa del Indicador número 3 desagregado por años de estudio
 
