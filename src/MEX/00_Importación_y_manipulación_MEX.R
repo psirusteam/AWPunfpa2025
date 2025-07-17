@@ -60,6 +60,9 @@ base_muj <- TB_SEC_IVaVD %>% select(
   T_INSTRUM,     # Estado conyugal
   P13_15C,       # Edad cuando se caso o se unio por primera vez
   CVE_ENT,       # Entidad federal
+  NOM_ENT,
+  P13_C_1,       # Estado conyugal actual
+  
   
   # =============================
   # Sección 14.3 - Violencia de pareja últimos 12 meses
@@ -107,9 +110,9 @@ base_muj <- TB_SEC_IVaVD %>% select(
   # Sección 15.1 Toma de decisiones sobre salud sexual y reproductiva
   # =============================
   
-  P15_1C_12,  # Quién decide cuándo tener relaciones sexuales
-  P15_1C_13,  # Quién decide si se usan métodos anticonceptivos
-  P15_1C_14   # Quién decide sobre el cuidado de la salud sexual y reproductiva
+  P15_1AB_12,  # Quién decide cuándo tener relaciones sexuales
+  P15_1AB_13,  # Quién decide si se usan métodos anticonceptivos
+  P15_1AB_14   # Quién decide sobre el cuidado de la salud sexual y reproductiva
   
   
   

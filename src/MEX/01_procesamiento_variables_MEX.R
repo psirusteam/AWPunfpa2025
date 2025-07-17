@@ -52,6 +52,8 @@ base_modelomuj <- base_unida %>%
     
     dam = CVE_ENT,
     
+    dam_name = NOM_ENT,
+    
     etnia = case_when(
       P2_10 %in% 1:2 ~ "1",      #Indigena
       TRUE ~ "2"),          #otros
@@ -67,36 +69,78 @@ base_modelomuj <- base_unida %>%
     
     # Quien decide cuando tener sexo
     dec_sex = case_when(
-      P15_1C_12 %in% c("1","7") ~ 1,
-      P15_1C_12 %in% c("2","3","4","5","6","8") ~ 0,
+      P15_1AB_12 %in% c("1","4") ~ 1,
+      P15_1AB_12 %in% c("2","3","5","6","7") ~ 0,
       TRUE ~ NA_real_),
     
     # Quien decide de métodos anticonceptivos
     dec_met = case_when(
-      P15_1C_13  %in% c("1","7") ~ 1,
-      P15_1C_13 %in% c("2","3","4","5","6","7","8") ~ 0,
+      P15_1AB_13 %in% c("1","4","5") ~ 1,
+      P15_1AB_13 %in% c("2","3","6","7") ~ 0,
       TRUE ~ NA_real_),
     
     # Decisión salud reproductiva y sexual
     dec_sal = case_when(
-      P15_1C_14 %in% c("1","7") ~ 1,
-      P15_1C_14 %in% c("2","3","4","5","6","7","8") ~ 0,
+      P15_1AB_14 %in% c("1","4","5") ~ 1,
+      P15_1AB_14 %in% c("2","3","6","7") ~ 0,
       TRUE ~ NA_real_),
     
-    #Algun tipo de violencia
+    # Variable combinada: autonomía en las tres decisiones
+    dec_autonomia = case_when(
+      dec_sex == 1 & dec_met == 1 & dec_sal == 1 ~ 1,
+      !is.na(dec_sex) & !is.na(dec_met) & !is.na(dec_sal) ~ 0,
+      TRUE ~ 0
+    ),
+    
+    
+    par_12m = case_when(
+      T_INSTRUM %in% c("A1", "A2", "B1", "B2") ~ 1,
+      P13_C_1 %in% c("1", "2") ~ 1,
+      P13_C_1 == "3" ~ 0,
+      TRUE ~ NA_real_
+    ),
     
     violencia = case_when(
-      rowSums(across(
-        starts_with("P14_3_"), 
-        ~ .x %in% c(1, 2, 3)
-      ), na.rm = TRUE) > 0 ~ 1,
-      
-      rowSums(across(
-        starts_with("P14_3_"), 
-        ~ .x %in% c(0, 4)
-      ), na.rm = TRUE) == length(select(., starts_with("P14_3_"))) ~ 0,
-      
-      TRUE ~ NA_real_
+      par_12m == 1 &
+      P14_3_1 %in% c("1","2","3") |
+        P14_3_2 %in% c("1","2","3") |
+        P14_3_3 %in% c("1","2","3") |
+        P14_3_4 %in% c("1","2","3") |
+        P14_3_5 %in% c("1","2","3") |
+        P14_3_6 %in% c("1","2","3") |
+        P14_3_7 %in% c("1","2","3") |
+        P14_3_8 %in% c("1","2","3") |
+        P14_3_9 %in% c("1","2","3") |
+        P14_3_10 %in% c("1","2","3") |
+        P14_3_11 %in% c("1","2","3") |
+        P14_3_12 %in% c("1","2","3") |
+        P14_3_13 %in% c("1","2","3") |
+        P14_3_14 %in% c("1","2","3") |
+        P14_3_15 %in% c("1","2","3") |
+        P14_3_16 %in% c("1","2","3") |
+        P14_3_17 %in% c("1","2","3") |
+        P14_3_18 %in% c("1","2","3") |
+        P14_3_19 %in% c("1","2","3") |
+        P14_3_20 %in% c("1","2","3") |
+        P14_3_21 %in% c("1","2","3") |
+        P14_3_22 %in% c("1","2","3") |
+        P14_3_23AB %in% c("1","2","3") |
+        P14_3_24AB %in% c("1","2","3") |
+        P14_3_25 %in% c("1","2","3") |
+        P14_3_26 %in% c("1","2","3") |
+        P14_3_27 %in% c("1","2","3") |
+        P14_3_28 %in% c("1","2","3") |
+        P14_3_29 %in% c("1","2","3") |
+        P14_3_30 %in% c("1","2","3") |
+        P14_3_31 %in% c("1","2","3") |
+        P14_3_32 %in% c("1","2","3") |
+        P14_3_33 %in% c("1","2","3") |
+        P14_3_34 %in% c("1","2","3") |
+        P14_3_35AB %in% c("1","2","3") |
+        P14_3_36AB %in% c("1","2","3") |
+        P14_3_37AB %in% c("1","2","3") |
+        P14_3_38AB %in% c("1","2","3") ~ 1,
+      TRUE ~ 0
     )
     
   )
@@ -105,100 +149,68 @@ base_modelomuj <- base_unida %>%
 ################################################################################
 ###---------------------------- Indicators ----------------------------------###
 ################################################################################  
-options(survey.lonely.psu = "adjust")
-
-diseño_mujeres <- base_modelomuj %>%
-  as_survey_design(
-    ids = UPM_DIS,
-    strata = EST_DIS,
-    weights = FAC_MUJ,
-    nest = TRUE
-  )
-
 
 ### Proporción de mujeres de 20-24 años que estuvieron casadas o en 
 ### unión antes de los 15 o 18 años.
 
-diseño_indicador1 <- diseño_mujeres %>%
-  filter(EDAD >= 20 & EDAD <= 24) 
+universo_indicador_1 <- base_modelomuj %>% filter(EDAD >= 20 & EDAD <= 24)
 
-indicator1_total <- diseño_indicador1 %>%
-  group_by(dam) %>%
-  summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
-  )
+design1 <- svydesign(
+  ids = ~UPM_DIS,
+  strata = ~EST_DIS,
+  weights = ~FAC_MUJ,
+  data = universo_indicador_1,
+  nest = TRUE
+)
 
+indicador1_total <- svyby(~union18, ~dam_name, design1, svymean, na.rm = TRUE)
+saveRDS(indicador1_total, file.path(output, "MEX/indicator1_total.rds"))
 
-saveRDS(indicator1_total, file.path(output, "MEX/indicator1_total.rds"))
+indicador1_etnia <- svyby(~union18, ~etnia, design3, svymean, na.rm = TRUE)
+saveRDS(indicador3_etnia, file.path(output, "MEX/indicator1_etnia.rds"))
 
-
-indicator1_edad <- diseño_indicador1 %>%
-  group_by(dam, edad) %>%
-  summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
-  )
-
-saveRDS(indicator1_edad, file.path(output, "MEX/indicator1_edad.rds"))
-
-indicator1_etnia <- diseño_indicador1 %>%
-  group_by(dam, etnia) %>%
-  summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
-  )
-
-saveRDS(indicator1_etnia, file.path(output, "MEX/indicator1_etnia.rds"))
-
-indicator1_anoest <- diseño_indicador1 %>%
-  group_by(dam, anoest) %>%
-  summarise(
-    prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
-  )
-
-saveRDS(indicator1_anoest, file.path(output, "MEX/indicator1_anoest.rds"))
+indicador1_anoest <- svyby(~union18, ~anoest, design3, svymean, na.rm = TRUE)
+saveRDS(indicador3_anoest, file.path(output, "MEX/indicator1_anoest.rds"))
 
 ### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
 
-diseño_indicator2 <- diseño_mujeres %>%
-  filter(EDAD >= 15 & EDAD <= 49) %>%
-  mutate(
-    indicator_2 = case_when(
-      dec_sex == 1 & dec_met == 1 & dec_sal == 1 ~ 1,
-      is.na(dec_sex) | is.na(dec_met) | is.na(dec_sal) ~ NA_real_,
-      TRUE ~ 0
-    )
-  )
+universo_indicador_2 <- base_modelomuj %>% filter(EDAD >= 15 & EDAD <= 49 & par_12m == 1)
 
-indicator2_total <- diseño_indicator2 %>%
-  group_by(dam) %>%
-  summarise(
-    indicator_2 = survey_mean(indicator_2, vartype = "ci", na.rm = TRUE)
-  )
+design2 <- svydesign(
+  ids = ~UPM_DIS,
+  strata = ~EST_DIS,
+  weights = ~FAC_MUJ,
+  data = universo_indicador_2,
+  nest = TRUE
+)
 
-indicator2_area <- diseño_indicator2 %>%
-  group_by(dam, area) %>%
-  summarise(
-    indicator_2 = survey_mean(indicator_2, vartype = "ci", na.rm = TRUE)*100
-  )
-
-indicator2_etnia <- diseño_indicator2 %>%
-  group_by(dam, etnia) %>%
-  summarise(
-    indicator_2 = survey_mean(indicator_2, vartype = "ci", na.rm = TRUE)*100
-  )
-
-indicator2_anoest <- diseño_indicator2 %>%
-  group_by(dam, anoest) %>%
-  summarise(
-    indicator_2 = survey_mean(indicator_2, vartype = "ci", na.rm = TRUE)*100
-  )
-
-
+indicador2_total <- svyby(~dec_autonomia, ~dam_name, design2, svymean, na.rm = TRUE)
+saveRDS(indicador3_total, file.path(output, "MEX/indicator3_total.rds"))
 
 ### Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna 
 ### vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja 
 ## actual o anterior en los últimos 12 meses (15-49 años)
 
+universo_indicador_3 <- base_modelomuj %>% filter(par_12m == 1)
 
+# Crear diseño muestral
+design3 <- svydesign(
+  ids = ~UPM_DIS,
+  strata = ~EST_DIS,
+  weights = ~FAC_MUJ,
+  data = universo_indicador_3,
+  nest = TRUE
+)
 
+indicador3_total <- svyby(~violencia, ~dam_name, design3, svymean, na.rm = TRUE)
+saveRDS(indicador3_total, file.path(output, "MEX/indicator3_total.rds"))
 
+indicador3_etnia <- svyby(~violencia, ~etnia, design3, svymean, na.rm = TRUE)
+saveRDS(indicador3_etnia, file.path(output, "MEX/indicator3_etnia.rds"))
+
+indicador3_anoest <- svyby(~violencia, ~anoest, design3, svymean, na.rm = TRUE)
+saveRDS(indicador3_anoest, file.path(output, "MEX/indicator3_anoest.rds"))
+
+indicador3_edad <- svyby(~violencia, ~edad, design3, svymean, na.rm = TRUE)
+saveRDS(indicador3_edad, file.path(output, "MEX/indicator3_edad.rds"))
