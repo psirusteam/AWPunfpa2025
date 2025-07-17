@@ -17,6 +17,7 @@ library(srvyr)
 library(ggplot2)
 
 
+
 ################################################################################
 ###----------------------------- Loading datasets ---------------------------###
 ################################################################################
@@ -24,178 +25,100 @@ library(ggplot2)
 ### Temporary directories ###
 b_path <- getwd()
 
-input <- file.path(b_path, "input")
-output <- file.path(b_path, "output")
-src <- file.path(b_path, "src")
+input <- file.path(b_path, "input" ,"MEX")
+output <- file.path(b_path,"output", "MEX")
+src <- file.path(b_path, "src", "MEX")
+
+load(file.path(input, "bd_endireh_2021.RData"))
+
+
+# --------------------------------------#
+#            Módulo demograficos        #
+# --------------------------------------#
+
+base_demo <- TSDem %>% select(
+  ID_VIV,   # Identificador único de la vivienda (equivale a folioviv)
+  ID_PER,   # Identificador de la persona en la vivienda (equivale a num_ren)
+  SEXO,     # Sexo de la persona (1 = Hombre, 2 = Mujer)
+  EDAD,     # Edad en años cumplidos
+  NIV,       # Nivel de escolaridad alcanzado (codificado)
+  P2_10      # Se considera indigena
+)
+
 # --------------------------------------#
 #            Módulo mujeres             #
 # --------------------------------------#
 
-base_Tmujer2<- read.csv(file.path(input, "MEX/TMUJER2.csv"), encoding = "UTF-8") %>% select( #Módulo de mujeres
+base_muj <- TB_SEC_IVaVD %>% select(
+  ID_VIV,        # Identificador de vivienda
+  ID_PER,        # Identificador de persona
+  UPM,           # Unidad primaria de muestreo
+  VIV_SEL,       # Vivienda seleccionada
+  FAC_MUJ,       # Factor de expansión
+  EST_DIS,       # Estrato
+  UPM_DIS,       # Disposición UPM
+  T_INSTRUM,     # Estado conyugal
+  P13_15C,       # Edad cuando se caso o se unio por primera vez
+  CVE_ENT,       # Entidad federal
   
-  # Identificación de la persona y del hogar
- 
-  upm,        # Unidad Primaria de Muestreo
-  viv_sel,    # Vivienda seleccionada
-  hogar,      # Número de hogar en la vivienda
-  n_ren,      # Número de renglón (persona en el hogar)
-  llave_hog,  # Identificador único del hogar
-  llave_viv,  # Identificador único de la vivienda
-  llave_muj,  #Identificador mujer (15 a 54 años)
-  ent,        #Entidad federativa
-  tam_loc,    #Tamaño de localidad
-
-  # Diseño muestral y expansión
-
-  fac_mod,    # Factor de expansión por persona(mujer)
-  t_loc_ur,   # Localidad ubrano - rural
-  estrato,    # Estrato sociodemográfico
-  est_dis,    # Estrato de diseño muestral
-  upm_dis,    # UPM de diseño muestral
-
-  # Características
-
-  edad_muj,       # Edad de la mujer
-  cond_act,   # Condición actividad
-  niv,        #nivel de escolaridad
-  edprmat,    #edad primer matrimonio
-  edpruni,    #edad primera unión
-  gra,        #grado aprobado
-  p10_1,      #situacion conyugal actual
-  p10_8,      #uniones anteriores
-  p3_19,      #Condición de habla indigena
-
-  # Salud reproductiva
-
-  p9_3,       # Recibió atención preconcepcional
-  p9_5_1,     # Tiempo de inicio de revisión prenatal
-  repretrim,  # Tuvo revisión prenatal en el primer trimestre
-  trevpren,   # Número total de revisiones prenatales
-  conrevpre,  # Condición de revisión prenatal
-  conrevpos,  # Condición de revisión posparto
-  conrevpri,  # Revisión en el primer año de vida del infante
-  p9_26,      # Está lactando actualmente
-  p9_34,      # Si deseaba el embarazo (último hijo nacido vivo)
-  repretrim,  # Revisión en el primer trimestre  
+  # =============================
+  # Sección 14.3 - Violencia de pareja últimos 12 meses
+  # =============================
+  P14_3_1,  # La ha empujado o jalado el cabello
+  P14_3_2,  # La ha abofeteado o cacheteado
+  P14_3_3,  # La ha amarrado
+  P14_3_4,  # La ha pateado
+  P14_3_5,  # Le ha aventado algún objeto
+  P14_3_6,  # La ha golpeado con el puño o con algún objeto
+  P14_3_7,  # La ha tratado de ahorcar o asfixiar
+  P14_3_8,  # La ha agredido con cuchillo o navaja
+  P14_3_9,  # Le ha disparado con arma de fuego
+  P14_3_10, # La ha humillado, insultado o comparado con otras mujeres
+  P14_3_11, # La ha ignorado o no le brinda afecto
+  P14_3_12, # Le ha dicho que lo engaña
+  P14_3_13, # Le ha hecho sentir miedo
+  P14_3_14, # La ha amenazado con abandonarla o dañarla
+  P14_3_15, # Le ha prohibido salir o recibir visitas
+  P14_3_16, # La ha espiado o seguido
+  P14_3_17, # La llama o le escribe constantemente para saber dónde está
+  P14_3_18, # La ha amenazado con algún arma
+  P14_3_19, # La ha amenazado con matarla o matarse
+  P14_3_20, # Le ha destruido o escondido sus pertenencias
+  P14_3_21, # Le ha dejado de hablar
+  P14_3_22, # Le revisa el celular o correo, o exige contraseñas
+  P14_3_23AB, # Le ha exigido con amenazas tener relaciones sexuales
+  P14_3_24AB, # La ha obligado a hacer cosas sexuales no deseadas
+  P14_3_25,   # Ha usado la fuerza para tener relaciones sexuales
+  P14_3_26,   # La ha obligado a ver pornografía
+  P14_3_27,   # La ha forzado a tener relaciones sin protección
+  P14_3_28,   # Le ha enviado mensajes con contenido sexual ofensivo
+  P14_3_29,   # Ha difundido información íntima o imágenes sin consentimiento
+  P14_3_30,   # Le ha prohibido estudiar o trabajar
+  P14_3_31,   # Le ha quitado el dinero o lo ha usado sin permiso
+  P14_3_32,   # Se ha adueñado de sus bienes
+  P14_3_33,   # Le ha robado directamente
+  P14_3_34,   # Le ha quitado bienes personales
+  P14_3_35AB, # Se ha gastado el dinero de la casa sin consultarla
+  P14_3_36AB, # La ha amenazado con no darle dinero para el hogar
+  P14_3_37AB, # Ha sido tacaño o la ha castigado económicamente
+  P14_3_38AB, # Ha controlado de forma abusiva el uso del dinero en el hogar
+  
+  # =============================
+  # Sección 15.1 Toma de decisiones sobre salud sexual y reproductiva
+  # =============================
+  
+  P15_1C_12,  # Quién decide cuándo tener relaciones sexuales
+  P15_1C_13,  # Quién decide si se usan métodos anticonceptivos
+  P15_1C_14   # Quién decide sobre el cuidado de la salud sexual y reproductiva
+  
+  
   
 )
 
-base_Tmujer1 <- read.csv(file.path(input, "MEX/TMUJER1.csv"), encoding = "UTF-8") %>% select(
-  upm,           # Unidad primaria de muestreo
-  viv_sel,       # Vivienda seleccionada
-  hogar,         # Hogar
-  n_ren,         # Número de renglón (identificador de persona) 
-  
-  
-  # Vida sexual
-  sex_act,       #Condición activida sexual
-  p8_3,          # ¿Alguna vez usted o su pareja han utilizado algún método para evitar el embarazo?
-  p8_4_01,       # ¿Esta usted operada para evitar el embarazo? 
-  p8_10,         # ¿Actualmente usted (o su pareja) están utilizando algún método para evitar el embarazo?
-  p8_16c,        # ¿Cuál es la razón principal por la que le recetaron (prescribieron) el método que utiliza actualmente?
-  p8_19,         # ¿La decisión de usar (MÉTODO ACTUAL) fue…
-  p8_27c,        # Razón de suspensión o abandono (penúltimo o último)
-  p8_35c,        # ¿Cuál fue la principal razón por la que dejó de usar (MÉTODO DE MENOR CÓDIGO EN 8.32)? (codificada)
-  p8_40,         # ¿Esta primera experiencia fue con su consentimiento (usted así lo quiso)?
-  p8_39,         # Edad primera relacion sexual
-  p7_16,         #Decisión número de hijos
-  p8_16,         # ¿Cuál es la razón principal por la que le recetaron (prescribieron) el método que utiliza actualmente?
-  
-  # Protección utilizada en la primera relación sexual
-  
-  p8_41_01,      # No usaron nada
-  p8_41_02,      # pastillas anticonceptivas
-  p8_41_03,      # Inyecciones o ampolletas anticonceptivas
-  p8_41_04,      # Implante anticonceptivo (subdérmico) o Norplant
-  p8_41_05,      # parche anticonceptivo
-  p8_41_06,      # DIU, dispositivo o aparato (de cobre)
-  p8_41_07,      # Condón o preservativo masculino
-  p8_41_08,      # Condón o preservativo femenino
-  p8_41_09,      # Óvulos, jaleas o espumas anticonceptivas
-  p8_41_10,      # Ritmo, calendario, Billings o abstinencia periódica
-  p8_41_11,      # Retiro o coito interrumpido
-  p8_41_12,      # píldora del día siguiente o anticoncepción de emergencia
-  p8_41_13,      # Otro método
-  p8_41_99,      # No responde
-  p8_42c,        # Razón de no uso en la primera relación
-  
-  #Conocimiento métodos anticonceptivos
-  
-  conoce,        # Conocimiento y tipo de métodos anticonceptivos
-  pri_met,       # Primer metodo utilizadp
-  p8_41_ag,      # Condición de protección en la primera relación sexual
-)
-  
-  
-  # --------------------------------------#
-  #            Módulo personas            #
-  # --------------------------------------#  
+base_unida <- base_muj %>%
+  left_join(base_demo, by = c("ID_VIV", "ID_PER"))
 
-base_pers <- read.csv(file.path(input, "MEX/TSDEM.csv"), encoding = "UTF-8") %>%
-  select(
-    upm,           # Unidad primaria de muestreo
-    viv_sel,       # Vivienda seleccionada
-    hogar,         # Hogar
-    n_ren,         # Número de renglón (identificador de persona)
-    p3_7,          # Se reconoce como afrodescendiente
-    p3_12,         # Habla lengua indígena
-    
-  )
+# Verificamos la unión
+glimpse(base_unida)
 
-base_modelomuj <- base_Tmujer2 %>%
-  left_join(base_pers, by = c("upm", "viv_sel", "hogar", "n_ren")) %>% left_join(base_Tmujer1, by = c("upm", "viv_sel", "hogar", "n_ren"))
-
-sum(base_modelomuj$fac_mod)#37.964.542 mujeres de 15 a 54 años de edad
-
-diseño_mujeres <- base_modelomuj %>%
-  as_survey_design(
-    ids = upm_dis,         # UPM de diseño muestral
-    strata = est_dis,      # Estrato de diseño
-    weights = fac_mod,     # Factor de expansión del módulo de mujer
-    nest = TRUE
-  )
-
-summary(diseño_mujeres)
-
-diseño_mujeres_15_49 <- diseño_mujeres %>%
-  filter(edad_muj >= 15, edad_muj <= 49)
-
-
-
-### Contrucción y comparación indicadores ya existentes en el anexo técnico ###
-
-options(survey.lonely.psu = "adjust") #hay un estrato con una solo UPM, se usa esto para seguir con el analisis sin eliminar datos 
-
-# -----------------------------------------------------------------#
-#            Mujeres de 14 a 49 años , según situación conyugal    #
-# -----------------------------------------------------------------#
-
-resultado_conyugal <- diseño_mujeres_15_49 %>%
-  group_by(p10_1) %>% 
-  summarize(
-    porcentaje = survey_mean(vartype = NULL, proportion = TRUE) * 100
-  ) %>%
-  mutate(etiqueta = recode(as.character(p10_1),
-                           "1" = "Unión libre",
-                           "2" = "Separada unión libre",
-                           "3" = "Separada matrimonio",
-                           "4" = "Divorciada",
-                           "5" = "Viuda unión libre",
-                           "6" = "Viuda matrimonio",
-                           "7" = "Casada",
-                           "8" = "Soltera"
-  )) %>%
-  ggplot(aes(x = reorder(etiqueta, porcentaje), y = porcentaje)) +
-  geom_col(fill = "#6baed6") +
-  geom_text(aes(label = round(porcentaje, 1)), hjust = -0.1) +
-  coord_flip() +
-  labs(x = NULL, y = "Porcentaje (%)") +
-  theme_minimal()
-
-ggsave(filename = file.path(output, "MEX/img/situacion_conyugal_mujeres_15_49.png"),
-       width = 7, height = 5, dpi = 300)
-
-
-save(base_modelomuj, file = file.path(output, "MEX/ENADID_modulo_mujeres_2023.RData"))
-
-
+save(base_unida, file = file.path(output, "ENDIREH_modulo_mujeres_2021.RData"))

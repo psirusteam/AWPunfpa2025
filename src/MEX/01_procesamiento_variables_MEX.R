@@ -28,87 +28,76 @@ input <- file.path(b_path, "input")
 output <- file.path(b_path, "output")
 src <- file.path(b_path, "src")
 
-load(file.path(output, "MEX/ENADID_modulo_mujeres_2023.RData"))
+load(file.path(output, "MEX/ENDIREH_modulo_mujeres_2021.RData"))
 
 ################################################################################
 ###---------------------------- Variables standardization--------------------###
 ################################################################################
 
-base_modelomuj <- base_modelomuj %>%
+base_modelomuj <- base_unida %>%
   mutate(
-    anoest  = case_when(
-      edad_muj < 5 | niv == -1 ~ "98",                                # No aplica
-      niv == 99 | (edad_muj >= 5 & is.na(niv)) ~ "99",                # No especificado / NSNR
-      niv == 0 ~ "1",                                                  # Ninguno
-      niv %in% 1:2 ~ "2",                                              # Preescolar o primaria
-      niv %in% 3:7 ~ "3",                                              # Secundaria, técnica con secundaria o media
-      niv %in% 8:11 ~ "4",                                             # Educación superior: licenciatura o más
-      TRUE ~ "Error"
+    anoest  =  case_when(
+      NIV == "00" ~ "1",  # Ninguno
+      NIV %in% c("01", "02") ~ "2",  # Preescolar o primaria
+      NIV %in% c("03", "04", "05", "06", "07", "08", "09") ~ "3",  # Secundaria, preparatoria, técnicos o normales
+      NIV %in% c("10", "11") ~ "4"   # Educación superior (licenciatura o posgrado)
     ),
     
     edad = case_when(
-      edad_muj < 15 ~ "1",
-      edad_muj < 30 ~ "2",
-      edad_muj < 45 ~ "3",
-      edad_muj < 65 ~ "4",
+      EDAD < 15 ~ "1",
+      EDAD < 30 ~ "2",
+      EDAD < 45 ~ "3",
+      EDAD < 65 ~ "4",
       TRUE~"5"),
     
-    dam = ent,
-    
-    area = t_loc_ur,
+    dam = CVE_ENT,
     
     etnia = case_when(
-      p3_7 == 1 ~ "1",      #Afro
-      p3_12 == 1 ~ "2",     #indigena
-      TRUE ~ "3"),          #otros
+      P2_10 %in% 1:2 ~ "1",      #Indigena
+      TRUE ~ "2"),          #otros
 
-    #Unión antes de los 15 y 18 años
+    #Unión antes de los 18 años
     
-    edad_union = pmin(edpruni, edprmat, na.rm = TRUE),
+    edad_union = P13_15C,
     
     union18 = case_when(
       !is.na(edad_union) & edad_union < 18 ~ 1,
       is.na(edad_union) ~ NA_real_,
       TRUE ~ 0), 
     
-    # Consentimiento en la primera relación sexual
-    consentim_sex = case_when(
-      p8_40 == 1 ~ 1,
-      p8_40 %in% c(2,9) ~ 0,
+    # Quien decide cuando tener sexo
+    dec_sex = case_when(
+      P15_1C_12 %in% c("1","7") ~ 1,
+      P15_1C_12 %in% c("2","3","4","5","6","8") ~ 0,
       TRUE ~ NA_real_),
     
-    # Conocimiento de métodos anticonceptivos
-    conoc_met = case_when(
-      conoce %in% c(1,2,3,4,5) ~ 1,
-      conoce == 6 ~ 0,
-      TRUE ~ NA_real_),
-    
-    # Uso actual de método anticonceptivo
-    usa_met = case_when(
-      p8_10 == 1 ~ 1,
-      p8_10 == 2 ~ 0,
-      TRUE ~ NA_real_),
-    
-    # Decisión de usar método anticonceptivo
+    # Quien decide de métodos anticonceptivos
     dec_met = case_when(
-      p8_19 == 3 ~ 1,
-      p8_19 %in% c(1, 2, 4, 5,8,9) ~ 0,
+      P15_1C_13  %in% c("1","7") ~ 1,
+      P15_1C_13 %in% c("2","3","4","5","6","7","8") ~ 0,
       TRUE ~ NA_real_),
     
-    
-    # Casada o en unión libre actualmente
-    esta_unida = case_when(
-      p10_1 %in% c(1, 7) ~ 1,  
-      p10_1 %in% c(2,3,4,5,6,8) ~ 0,
+    # Decisión salud reproductiva y sexual
+    dec_sal = case_when(
+      P15_1C_14 %in% c("1","7") ~ 1,
+      P15_1C_14 %in% c("2","3","4","5","6","7","8") ~ 0,
       TRUE ~ NA_real_),
     
-    ## Decisión sobre número de hijos
-    dec_hijos = case_when(
-      p7_16 == 1 ~ 1,                         # Decidió ella
-      p7_16 %in% c(2,3,4,9) ~ 0,              # Decidió otra persona
+    #Algun tipo de violencia
+    
+    violencia = case_when(
+      rowSums(across(
+        starts_with("P14_3_"), 
+        ~ .x %in% c(1, 2, 3)
+      ), na.rm = TRUE) > 0 ~ 1,
+      
+      rowSums(across(
+        starts_with("P14_3_"), 
+        ~ .x %in% c(0, 4)
+      ), na.rm = TRUE) == length(select(., starts_with("P14_3_"))) ~ 0,
+      
       TRUE ~ NA_real_
     )
-    
     
   )
     
@@ -120,9 +109,9 @@ options(survey.lonely.psu = "adjust")
 
 diseño_mujeres <- base_modelomuj %>%
   as_survey_design(
-    ids = upm_dis,
-    strata = est_dis,
-    weights = fac_mod,
+    ids = UPM_DIS,
+    strata = EST_DIS,
+    weights = FAC_MUJ,
     nest = TRUE
   )
 
@@ -131,7 +120,7 @@ diseño_mujeres <- base_modelomuj %>%
 ### unión antes de los 15 o 18 años.
 
 diseño_indicador1 <- diseño_mujeres %>%
-  filter(edad_muj >= 20 & edad_muj <= 24) 
+  filter(EDAD >= 20 & EDAD <= 24) 
 
 indicator1_total <- diseño_indicador1 %>%
   group_by(dam) %>%
@@ -143,13 +132,13 @@ indicator1_total <- diseño_indicador1 %>%
 saveRDS(indicator1_total, file.path(output, "MEX/indicator1_total.rds"))
 
 
-indicator1_area <- diseño_indicador1 %>%
-  group_by(dam, area) %>%
+indicator1_edad <- diseño_indicador1 %>%
+  group_by(dam, edad) %>%
   summarise(
     prop_antes_18 = survey_mean(union18, vartype = "cv", na.rm = TRUE)
   )
 
-saveRDS(indicator1_area, file.path(output, "MEX/indicator1_area.rds"))
+saveRDS(indicator1_edad, file.path(output, "MEX/indicator1_edad.rds"))
 
 indicator1_etnia <- diseño_indicador1 %>%
   group_by(dam, etnia) %>%
@@ -171,13 +160,19 @@ saveRDS(indicator1_anoest, file.path(output, "MEX/indicator1_anoest.rds"))
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
 
 diseño_indicator2 <- diseño_mujeres %>%
-  filter(edad_muj >= 15 & edad_muj <= 49, esta_unida == 1) %>%
+  filter(EDAD >= 15 & EDAD <= 49) %>%
   mutate(
     indicator_2 = case_when(
-      dec_hijos == 1 & dec_met == 1 & consentim_sex == 1 ~ 1,
-      is.na(dec_hijos) | is.na(dec_met) | is.na(consentim_sex) ~ NA_real_,
+      dec_sex == 1 & dec_met == 1 & dec_sal == 1 ~ 1,
+      is.na(dec_sex) | is.na(dec_met) | is.na(dec_sal) ~ NA_real_,
       TRUE ~ 0
     )
+  )
+
+indicator2_total <- diseño_indicator2 %>%
+  group_by(dam) %>%
+  summarise(
+    indicator_2 = survey_mean(indicator_2, vartype = "ci", na.rm = TRUE)
   )
 
 indicator2_area <- diseño_indicator2 %>%
