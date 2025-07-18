@@ -63,9 +63,10 @@ base_modelomuj <- base_unida %>%
     edad_union = P13_15C,
     
     union18 = case_when(
-      !is.na(edad_union) & edad_union < 18 ~ 1,
-      is.na(edad_union) ~ NA_real_,
-      TRUE ~ 0), 
+      !is.na(edad_union) & edad_union < 18 & EDAD >= 20 & EDAD <= 24 ~ 1,
+      is.na(edad_union) | EDAD < 20 | EDAD > 24 ~ NA_real_,
+      TRUE ~ 0
+    ), 
     
     # Quien decide cuando tener sexo
     dec_sex = case_when(
@@ -149,6 +150,7 @@ base_modelomuj <- base_unida %>%
 ################################################################################
 ###---------------------------- Indicators ----------------------------------###
 ################################################################################  
+options(survey.lonely.psu="adjust")
 
 ### Proporción de mujeres de 20-24 años que estuvieron casadas o en 
 ### unión antes de los 15 o 18 años.
@@ -162,15 +164,28 @@ design1 <- svydesign(
   data = universo_indicador_1,
   nest = TRUE
 )
-
-indicador1_total <- svyby(~union18, ~dam_name, design1, svymean, na.rm = TRUE)
+# ---- Total ----
+indicador1_total <- svyby(~union18, ~dam_name, design1, svymean, na.rm = TRUE) %>%
+  mutate(cv = (se / union18) * 100)
 saveRDS(indicador1_total, file.path(output, "MEX/indicator1_total.rds"))
 
-indicador1_etnia <- svyby(~union18, ~etnia, design3, svymean, na.rm = TRUE)
-saveRDS(indicador3_etnia, file.path(output, "MEX/indicator1_etnia.rds"))
+# ---- Etnia ----
+indicador1_etnia <- svyby(~union18, ~interaction(dam_name, etnia), design1, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, etnia)`, into = c("dam_name", "etnia"), sep = "\\.") %>%
+  mutate(cv = (se / union18) * 100)
+saveRDS(indicador1_etnia, file.path(output, "MEX/indicator1_etnia.rds"))
 
-indicador1_anoest <- svyby(~union18, ~anoest, design3, svymean, na.rm = TRUE)
-saveRDS(indicador3_anoest, file.path(output, "MEX/indicator1_anoest.rds"))
+# ---- Año de estudio ----
+indicador1_anoest <- svyby(~union18, ~interaction(dam_name, anoest), design1, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, anoest)`, into = c("dam_name", "anoest"), sep = "\\.") %>%
+  mutate(cv = (se / union18) * 100)
+saveRDS(indicador1_anoest, file.path(output, "MEX/indicator1_anoest.rds"))
+
+# ---- Edad ----
+indicador1_edad <- svyby(~union18, ~interaction(dam_name, edad), design1, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, edad)`, into = c("dam_name", "edad"), sep = "\\.") %>%
+  mutate(cv = (se / union18) * 100)
+saveRDS(indicador1_edad, file.path(output, "MEX/indicator1_edad.rds"))
 
 ### Proporción de mujeres de 15-49 años que toman sus propias decisiones informadas 
 ### sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. 
@@ -185,9 +200,28 @@ design2 <- svydesign(
   nest = TRUE
 )
 
-indicador2_total <- svyby(~dec_autonomia, ~dam_name, design2, svymean, na.rm = TRUE)
-saveRDS(indicador3_total, file.path(output, "MEX/indicator3_total.rds"))
+# ---- Total ----
+indicador2_total <- svyby(~dec_autonomia, ~dam_name, design2, svymean, na.rm = TRUE) %>%
+  mutate(cv = (se / dec_autonomia) * 100)
+saveRDS(indicador2_total, file.path(output, "MEX/indicator2_total.rds"))
 
+# ---- Etnia ----
+indicador2_etnia <- svyby(~dec_autonomia, ~interaction(dam_name, etnia), design2, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, etnia)`, into = c("dam_name", "etnia"), sep = "\\.") %>%
+  mutate(cv = (se / dec_autonomia) * 100)
+saveRDS(indicador2_etnia, file.path(output, "MEX/indicator2_etnia.rds"))
+
+# ---- Año de estudio ----
+indicador2_anoest <- svyby(~union18, ~interaction(dam_name, anoest), design2, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, anoest)`, into = c("dam_name", "anoest"), sep = "\\.") %>%
+  mutate(cv = (se / union18) * 100)
+saveRDS(indicador2_anoest, file.path(output, "MEX/indicator2_anoest.rds"))
+
+# ---- Edad ----
+indicador2_edad <- svyby(~union18, ~interaction(dam_name, edad), design2, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, edad)`, into = c("dam_name", "edad"), sep = "\\.") %>%
+  mutate(cv = (se / union18) * 100)
+saveRDS(indicador2_edad, file.path(output, "MEX/indicator2_edad.rds"))
 ### Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna 
 ### vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja 
 ## actual o anterior en los últimos 12 meses (15-49 años)
@@ -203,14 +237,26 @@ design3 <- svydesign(
   nest = TRUE
 )
 
-indicador3_total <- svyby(~violencia, ~dam_name, design3, svymean, na.rm = TRUE)
+
+# ---- Total ----
+indicador3_total <- svyby(~violencia, ~dam_name, design3, svymean, na.rm = TRUE) %>%
+  mutate(cv = (se / violencia) * 100)
 saveRDS(indicador3_total, file.path(output, "MEX/indicator3_total.rds"))
 
-indicador3_etnia <- svyby(~violencia, ~etnia, design3, svymean, na.rm = TRUE)
+# ---- Etnia ----
+indicador3_etnia <- svyby(~violencia, ~interaction(dam_name, etnia), design3, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, etnia)`, into = c("dam_name", "etnia"), sep = "\\.") %>%
+  mutate(cv = (se / violencia) * 100)
 saveRDS(indicador3_etnia, file.path(output, "MEX/indicator3_etnia.rds"))
 
-indicador3_anoest <- svyby(~violencia, ~anoest, design3, svymean, na.rm = TRUE)
+# ---- Año de estudio ----
+indicador3_anoest <- svyby(~violencia, ~interaction(dam_name, anoest), design3, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, anoest)`, into = c("dam_name", "anoest"), sep = "\\.") %>%
+  mutate(cv = (se / violencia) * 100)
 saveRDS(indicador3_anoest, file.path(output, "MEX/indicator3_anoest.rds"))
 
-indicador3_edad <- svyby(~violencia, ~edad, design3, svymean, na.rm = TRUE)
+# ---- Edad ----
+indicador3_edad <- svyby(~violencia, ~interaction(dam_name, edad), design3, svymean, na.rm = TRUE) %>%
+  separate(`interaction(dam_name, edad)`, into = c("dam_name", "edad"), sep = "\\.") %>%
+  mutate(cv = (se / violencia) * 100)
 saveRDS(indicador3_edad, file.path(output, "MEX/indicator3_edad.rds"))
