@@ -24,19 +24,23 @@ src <- file.path(b_path, "src")
 
 Este informe presenta un análisis descriptivo de la estructura y el diseño muestral de tres encuestas recientes: la Encuesta Nacional de la Dinámica Demográfica (ENADID 2023) de México, la Encuesta de Demografía y Salud (EDSA 2023) de Bolivia y la Encuesta Nacional de Demografía y Salud (ENDS 2025) de Colombia. Se examinan elementos como los módulos temáticos, las variables clave, las poblaciones objetivo y el diseño muestral. El análisis se desarrolla de manera individual para cada encuesta, permitiendo revisar sus enfoques metodológicos.
 
-### Encuesta Nacional de la Dinámica Demográfica (ENADID 2023) de México - módulo mujeres.
+### Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (ENDIREH 2021) – México
 
-El módulo de mujeres de la Encuesta Nacional de la Dinámica Demográfica (ENADID 2023) está orientado a recopilar información detallada sobre aspectos clave de la vida reproductiva y social de las mujeres mexicanas de 15 a 54 años. Este módulo profundiza en temas como fecundidad, planificación familiar, salud sexual y reproductiva, así como experiencias de unión y convivencia. Su objetivo es generar datos que permitan comprender con mayor precisión las condiciones y decisiones que enfrentan las mujeres en el contexto demográfico actual del país.
+La Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (ENDIREH) 2021, desarrollada por el Instituto Nacional de Estadística y Geografía (INEGI), tiene como propósito central generar información estadística detallada sobre las formas de violencia que enfrentan las mujeres mexicanas, así como sobre la toma de decisiones en el ámbito de la salud sexual y reproductiva. La encuesta proporciona evidencia clave para el diseño, monitoreo y evaluación de políticas públicas orientadas a la igualdad de género y la erradicación de la violencia por razones de género.
 
-- **Unidad de observación:** Mujer de 15 a 54 años entrevistada directamente en la vivienda seleccionada.
+El módulo de mujeres de la ENDIREH aborda temas como la violencia de pareja, sexual, familiar, escolar, comunitaria y laboral, así como decisiones autónomas sobre salud reproductiva y anticoncepción.
 
-- **Tamaño de muestra:** 119,537 viviendas particulares distribuidas en todo el país.
+- **Unidad de observación:** La unidad de análisis del módulo de mujeres corresponde a:
 
-- **Diseño muestral:** Probabilístico, estratificado, multietápico y por conglomerados.
+Mujeres de 15 años y más residentes habituales de las viviendas seleccionadas, entrevistadas directamente.
+
+- **Tamaño de muestra:** 140,784 viviendas, distribuidas proporcionalmente en los 32 estados del país.
+
+- **Diseño muestral:** Probabilístico, trietápico, estratificado y por conglomerados.
 
 - **Ámbitos de cobertura:** Urbano alto, complemento urbano y rural, con estratificación geográfica y sociodemográfica.
 
-- **Factores de expansión:** Ajustados por no respuesta y calibrados por estimaciones de población; incluyen corrección específica para el módulo de mujeres (15–54 años).
+- **Factores de expansión:** Ajustados por no respuesta y calibrados por estimaciones de población.
 
 
 #### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años
