@@ -22,7 +22,7 @@ src <- file.path(b_path, "src")
 
 ## Análisis de las últimas encuestas sobre salud y demografía en México, Bolivia y Colombia
 
-Este informe presenta un análisis descriptivo de la estructura y el diseño muestral de tres encuestas recientes: la Encuesta Nacional de la Dinámica Demográfica (ENADID 2023) de México, la Encuesta de Demografía y Salud (EDSA 2023) de Bolivia y la Encuesta Nacional de Demografía y Salud (ENDS 2025) de Colombia. Se examinan elementos como los módulos temáticos, las variables clave, las poblaciones objetivo y el diseño muestral. El análisis se desarrolla de manera individual para cada encuesta, permitiendo revisar sus enfoques metodológicos.
+Este informe presenta un análisis descriptivo de la estructura y el diseño muestral de tres encuestas recientes: la Encuesta Nacional sobre la dinámica de las relaciones en los hogares (ENDIREH 2021) de México, la Encuesta de Demografía y Salud (EDSA 2023) de Bolivia y la Encuesta Nacional de Demografía y Salud (ENDS 2025) de Colombia. Se examinan elementos como los módulos temáticos, las variables clave, las poblaciones objetivo y el diseño muestral. El análisis se desarrolla de manera individual para cada encuesta, permitiendo revisar sus enfoques metodológicos.
 
 ### Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (ENDIREH 2021) – México
 
@@ -49,12 +49,13 @@ Mujeres de 15 años y más residentes habituales de las viviendas seleccionadas,
 
 **Variables utilizadas:**
 
-- `edad_muj`: Edad actual de la mujer.
-- `edpruni`: Edad a la primera unión.
+- `EDAD`: Edad actual de la mujer.
+
+- `P13_15C`: Edad a la primera unión conyugal.
 
 **Variables derivadas:**
 
-- `union18`: Variable binaria que toma el valor 1 si la mujer se unió antes de los 18 años, y 0 en caso contrario.
+- `union18`: Toma el valor 1 si la mujer se unió antes de los 18 años, 0 en caso contrario, y NA si no aplica.
 
 **Numerador:** Número de mujeres de 20 a 24 años que estuvieron casadas o unidas antes de los 18 años.
 
@@ -62,67 +63,184 @@ Mujeres de 15 años y más residentes habituales de las viviendas seleccionadas,
 
 **Importancia:** Este indicador refleja las uniones tempranas, que pueden asociarse a mayores niveles de vulnerabilidad, limitación en el acceso a educación y salud, y dependencia económica.
 
-### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva
+#### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva
 
 **Población objetivo:** Mujeres de 15 a 49 años, actualmente casadas o en unión libre.
 
 **Variables utilizadas:**
 
-- **`p10_1`: Situación conyugal actual**  
-  Pregunta: *Actualmente usted...*  
-  Opciones de respuesta:  
-   1: Vive con su pareja en unión libre  
-   2: Está separada de una unión libre  
-   3: Está separada de un matrimonio  
-   4: Está divorciada  
-   5: Está viuda de una unión libre  
-   6: Está viuda de un matrimonio  
-   7: Está casada  
-   8: Está soltera  
+- `P15_1AB_12`: ¿Quién decide cuándo tener relaciones sexuales?
 
-- **`p7_16`: Decisión sobre el número de hijas(os)**  
-  Pregunta: *El número de hijas o hijos que tiene actualmente, ¿ha sido decisión...*  
-  Opciones de respuesta:  
-    1: De ella  
-    2: De su pareja  
-    3: De ambos  
-    4: De otra persona  
-    9: No responde  
+- `P15_1AB_13`: ¿Quién decide sobre el uso del método anticonceptivo?
 
-- **`p8_19`: Decisión sobre el uso del método anticonceptivo actual**  
-  Pregunta: *¿Quién decidió el uso del método anticonceptivo que utiliza actualmente?*  
-  Opciones de respuesta:  
-    1: De su pareja  
-    2: De ambos  
-    3: Suya  
-    4: De otra persona  
-    5: Personal de salud  
-    8: No sabe  
-    9: No especificado 
-  
-- **`p8_40`: Consentimiento en la primera relación sexual**  
-  Pregunta: *¿Esta primera experiencia fue con su consentimiento (usted así lo quiso)?*  
-  Opciones de respuesta:  
-    1: Sí  
-    2: No  
-    9: No responde  
+- `P15_1AB_14`: ¿Quién decide sobre salud reproductiva y sexual?
+
+- `P13_C_1` y `T_INSTRUM`: Para identificar mujeres con pareja reciente. 
 
 **Variables derivadas:**
 
-- `esta_unida`: Toma el valor 1 si la mujer declaró estar casada o en unión libre (categorías 1 o 7).
-- `dec_hijos`: Toma el valor 1 si la mujer decidió por sí misma el número de hijos (`p7_16 == 1`).
-- `dec_met`: Toma el valor 1 si la decisión de usar el método anticonceptivo fue exclusivamente de la mujer (`p8_19 == 3`).
-- `consentim_sex`: Toma el valor 1 si la mujer dio su consentimiento en la primera relación sexual (`p8_40 == 1`).
+- par_12m` : Toma el valor 1 si la mujer ha tenido pareja en los últimos 12 meses.
 
-**Numerador:** Mujeres de 15 a 49 años que están casadas o en unión, y que cumplen simultáneamente los siguientes tres criterios de empoderamiento:
+- `dec_sex` : Valor 1 si decide por sí sola o principalmente sobre relaciones sexuales (P15_1AB_12 %in% c("1","4")).
 
-1. Haber otorgado consentimiento en su primera relación sexual.
-2. Haber tomado por sí mismas la decisión de usar el método anticonceptivo actual.
-3. Haber tomado por sí mismas la decisión sobre el número de hijas o hijos que deseaban tener.
+- `dec_met` : Valor 1 si decide por sí sola o personal de salud sobre anticoncepción (P15_1AB_13 %in% c("1","4","5")).
+
+- `dec_sal` : Valor 1 si decide por sí sola o personal de salud sobre salud reproductiva (P15_1AB_14 %in% c("1","4","5")).
+
+- ` dec_autonomia`: Toma el valor 1 si la mujer cumple simultáneamente los tres criterios anteriores.
+
+**Numerador:** Mujeres de 15 a 49 años que están casadas o en unión, que toman por sí mismas decisiones informadas sobre:
+
+- relaciones sexuales,
+
+- métodos anticonceptivos,
+
+- salud sexual y reproductiva.
 
 **Denominador:** Total de mujeres de 15 a 49 años, casadas o en unión libre.
 
 **Nota metodológica:** Las mujeres con datos faltantes en alguna de las tres variables fueron excluidas del numerador. El indicador refleja el grado de autonomía reproductiva y toma de decisiones de las mujeres.
+
+#### Indicador 3.Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses (15-49 años).
+
+
+**Población objetivo:** Mujeres de 15 a 49 años que han tenido pareja en los últimos 12 meses.
+
+**Variables utilizadas:**
+- `P13_C_1`: Identifica si actualmente tiene o ha tenido pareja.
+
+- `T_INSTRUM`: Identifica el tipo de cuestionario aplicado (para mujeres con historial de pareja).
+
+- `P14_3_*`: Conjunto de preguntas que indagan sobre distintos actos de violencia ejercidos por una pareja o expareja en los últimos 12 meses.
+
+**Variable derivada:**
+- `par_12m`: Toma el valor 1 si la mujer ha tenido pareja en los últimos 12 meses (por `T_INSTRUM` o `P13_C_1`).
+
+- `violencia`: Toma el valor 1 si la mujer reportó al menos un acto de violencia física, sexual o psicológica por parte de su pareja o expareja en el último año.
+
+**Numerador:** Mujeres que reportaron al menos un acto de violencia física, sexual o psicológica ejercido por una pareja actual o anterior en los últimos 12 meses.
+
+**Denominador:** Total de mujeres de 15 a 49 años con pareja actual o pasada en los últimos 12 meses.
+
+**Importancia:**  Este indicador refleja la prevalencia de violencia de pareja reciente en cualquiera de sus formas, visibilizando la magnitud de este fenómeno y permitiendo focalizar políticas de prevención, protección y reparación.
+
+
+### Resultados - México 
+
+#### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
+
+```{r tabla-indicador11-1, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_total.rds")) %>%
+  rename(
+    Proporcion = union18,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 1. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+```{r tabla-indicador11-2, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_edad.rds")) %>%
+  rename(
+    Proporcion = union18,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    edad = case_when(
+      edad == 1 ~ "Menores 15 años",
+      edad == 2 ~ "15-29 años",
+      edad == 3 ~ "30-34 años",
+      edad == 4 ~ "45-64 años",
+      edad == 5 ~ "Mayor 65 años",
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 2. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por area."
+)
+```
+#### Figura 1. Mapa del Indicador número 1 desagregado por entidad federativa
+```{r incluir-imagen-mapa12, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_total.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+#### Figura 1. Mapa del Indicador número 1 desagregado por entidad federativa
+```{r incluir-imagen-mapa12, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_total.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+```{r tabla-indicador11-3, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_etnia.rds")) %>%
+  rename(
+    Proporcion = prop_antes_18,
+    CV = prop_antes_18_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    etnia = case_when(
+         etnia == 1 ~ "Afro",
+        etnia == 2 ~ "Indigena",
+        etnia == 3 ~ "Otros"
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 3. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por étnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+#### Figura 2. Mapa del Indicador número 1 desagregado por étnia
+```{r incluir-imagen-mapa11, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+```{r tabla-indicador11-4, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_anoest.rds")) %>%
+  rename(
+    Proporcion = prop_antes_18,
+    CV = prop_antes_18_cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV * 100, 1),
+    anoest = case_when(
+      anoest == 1 ~ "Sin educacion",
+      anoest == 2 ~ "1 - 6 anos",
+      anoest == 3 ~ "7 - 12 anos",
+      anoest == 4 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind1,
+  caption = "Tabla 4. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+
+#### Figura 3. Mapa del Indicador número 1 desagregado por años de estudio
+```{r incluir-imagen-mapa14, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_anoest.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
 
 
 ### Encuesta de demografía y salud(EDSA 2023) de Bolívia.
@@ -228,123 +346,7 @@ Mujeres de 15 a 49 años que han tenido alguna relación de pareja.
 Este indicador permite dimensionar la prevalencia de violencia de pareja en mujeres en edad reproductiva, visibilizando situaciones de riesgo que requieren atención y acción desde las políticas públicas de prevención y protección frente a la violencia de género.
 
 
-## Resultados
-
-En esta sección se presentan los principales resultados derivados del análisis de los indicadores seleccionados. Los valores están desagregados por departamento (`dam`), área (`area`) y nivel educativo (`anoest`), y se expresan en porcentaje. Se incluye el coeficiente de variación (CV) para evaluar la precisión de las estimaciones.
-
-### México 
-
-#### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
-
-```{r tabla-indicador11-1, echo=FALSE}
-tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_total.rds")) %>%
-  rename(
-    Proporcion = prop_antes_18,
-    CV = prop_antes_18_cv
-  ) %>%
-  mutate(
-    Proporcion = round(Proporcion * 100, 1),
-    CV = round(CV * 100, 1) ,
-    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
-  ) 
-
-knitr::kable(
-  tabla_ind1,
-  caption = "Tabla 1. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años."
-)
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-```{r tabla-indicador11-2, echo=FALSE}
-tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_area.rds")) %>%
-  rename(
-    Proporcion = prop_antes_18,
-    CV = prop_antes_18_cv
-  ) %>%
-  mutate(
-    Proporcion = round(Proporcion * 100, 1),
-    CV = round(CV * 100, 1),
-    area = case_when(
-         area == 1 ~ "Urbano",
-        area == 2 ~ "Rural",
-        TRUE ~ "Sin clasificar"
-  ),
-  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
-  ) 
-
-knitr::kable(
-  tabla_ind1,
-  caption = "Tabla 2. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por area."
-)
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-
-### Figura 1. Mapa del Indicador número 1 desagregado por área geográfica
-```{r incluir-imagen-mapa12, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_area.png"))
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-
-```{r tabla-indicador11-3, echo=FALSE}
-tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_etnia.rds")) %>%
-  rename(
-    Proporcion = prop_antes_18,
-    CV = prop_antes_18_cv
-  ) %>%
-  mutate(
-    Proporcion = round(Proporcion * 100, 1),
-    CV = round(CV * 100, 1),
-    etnia = case_when(
-         etnia == 1 ~ "Afro",
-        etnia == 2 ~ "Indigena",
-        etnia == 3 ~ "Otros"
-  ),
-  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
-  ) 
-
-knitr::kable(
-  tabla_ind1,
-  caption = "Tabla 3. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por étnia"
-)
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-
-### Figura 2. Mapa del Indicador número 1 desagregado por étnia
-```{r incluir-imagen-mapa11, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_etnia.png"))
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-```{r tabla-indicador11-4, echo=FALSE}
-tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_anoest.rds")) %>%
-  rename(
-    Proporcion = prop_antes_18,
-    CV = prop_antes_18_cv
-  ) %>%
-  mutate(
-    Proporcion = round(Proporcion * 100, 1),
-    CV = round(CV * 100, 1),
-    anoest = case_when(
-      anoest == 1 ~ "Sin educacion",
-      anoest == 2 ~ "1 - 6 anos",
-      anoest == 3 ~ "7 - 12 anos",
-      anoest == 4 ~ "Mas de 12 anos",
-      TRUE ~ NA_character_
-  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
-
-knitr::kable(
-  tabla_ind1,
-  caption = "Tabla 4. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
-)
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-
-### Figura 3. Mapa del Indicador número 1 desagregado por años de estudio
-```{r incluir-imagen-mapa14, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_anoest.png"))
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-
-
-### Bolivia 
+### Resultados - Bolivia 
 
 #### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
 
