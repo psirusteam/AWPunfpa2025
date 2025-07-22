@@ -56,7 +56,7 @@ base_modelomuj <- base_unida %>%
     
     etnia = case_when(
       P2_10 %in% 1:2 ~ "1",      #Indigena
-      TRUE ~ "2"),          #otros
+      TRUE ~ "2"),          #Ninguno
 
     #Unión antes de los 18 años
     

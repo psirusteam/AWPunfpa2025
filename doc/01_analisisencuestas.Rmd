@@ -22,7 +22,7 @@ src <- file.path(b_path, "src")
 
 ## Análisis de las últimas encuestas sobre salud y demografía en México, Bolivia y Colombia
 
-Este informe presenta un análisis descriptivo de la estructura y el diseño muestral de tres encuestas recientes: la Encuesta Nacional sobre la dinámica de las relaciones en los hogares (ENDIREH 2021) de México, la Encuesta de Demografía y Salud (EDSA 2023) de Bolivia y la Encuesta Nacional de Demografía y Salud (ENDS 2025) de Colombia. Se examinan elementos como los módulos temáticos, las variables clave, las poblaciones objetivo y el diseño muestral. El análisis se desarrolla de manera individual para cada encuesta, permitiendo revisar sus enfoques metodológicos.
+Este informe presenta un análisis descriptivo de la estructura y el diseño muestral de tres encuestas recientes: la **Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (ENDIREH 2021)** de México, la **Encuesta de Demografía y Salud (EDSA 2023)** de Bolivia y la **Encuesta Nacional de Demografía y Salud (ENDS 2025)** de Colombia. Se examinan elementos como los módulos temáticos, las variables clave, las poblaciones objetivo y el diseño muestral. El análisis se desarrolla de manera individual para cada encuesta, permitiendo revisar sus enfoques metodológicos, su comparabilidad y los retos en la construcción de indicadores de género y salud reproductiva.
 
 ### Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (ENDIREH 2021) – México
 
@@ -129,7 +129,7 @@ Mujeres de 15 años y más residentes habituales de las viviendas seleccionadas,
 
 #### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
 
-```{r tabla-indicador11-1, echo=FALSE}
+```{r tabla-indicador11-10, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_total.rds")) %>%
   rename(
     Proporcion = union18,
@@ -146,9 +146,16 @@ knitr::kable(
   caption = "Tabla 1. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años."
 )
 ```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-```{r tabla-indicador11-2, echo=FALSE}
-tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_edad.rds")) %>%
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+#### Figura 1. Mapa del Indicador número 1 desagregado por entidad federativa
+```{r incluir-imagen-mapa120, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_total.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+```{r tabla-indicador11-30, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_etnia.rds")) %>%
   rename(
     Proporcion = union18,
     CV = cv
@@ -156,71 +163,34 @@ tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_edad.rds")) %>%
   mutate(
     Proporcion = round(Proporcion * 100, 1),
     CV = round(CV, 1),
-    edad = case_when(
-      edad == 1 ~ "Menores 15 años",
-      edad == 2 ~ "15-29 años",
-      edad == 3 ~ "30-34 años",
-      edad == 4 ~ "45-64 años",
-      edad == 5 ~ "Mayor 65 años",
+    etnia = case_when(
+         etnia == 1 ~ "Indigena",
+        etnia == 2 ~ "Ninguna",
   ),
   dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
   ) 
 
 knitr::kable(
   tabla_ind1 %>% select(-c("se")),
-  caption = "Tabla 2. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por area."
+  caption = "Tabla 2. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por étnia"
 )
 ```
-#### Figura 1. Mapa del Indicador número 1 desagregado por entidad federativa
-```{r incluir-imagen-mapa12, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_total.png"))
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-
-#### Figura 1. Mapa del Indicador número 1 desagregado por entidad federativa
-```{r incluir-imagen-mapa12, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_total.png"))
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-
-```{r tabla-indicador11-3, echo=FALSE}
-tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_etnia.rds")) %>%
-  rename(
-    Proporcion = prop_antes_18,
-    CV = prop_antes_18_cv
-  ) %>%
-  mutate(
-    Proporcion = round(Proporcion * 100, 1),
-    CV = round(CV * 100, 1),
-    etnia = case_when(
-         etnia == 1 ~ "Afro",
-        etnia == 2 ~ "Indigena",
-        etnia == 3 ~ "Otros"
-  ),
-  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
-  ) 
-
-knitr::kable(
-  tabla_ind1,
-  caption = "Tabla 3. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por étnia"
-)
-```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
 
 #### Figura 2. Mapa del Indicador número 1 desagregado por étnia
-```{r incluir-imagen-mapa11, echo=FALSE, out.width="100%"}
+```{r incluir-imagen-mapa110, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_etnia.png"))
 ```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
-```{r tabla-indicador11-4, echo=FALSE}
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+```{r tabla-indicador11-40, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_anoest.rds")) %>%
   rename(
-    Proporcion = prop_antes_18,
-    CV = prop_antes_18_cv
+    Proporcion = union18,
+    CV = cv
   ) %>%
   mutate(
     Proporcion = round(Proporcion * 100, 1),
-    CV = round(CV * 100, 1),
+    CV = round(CV, 1),
     anoest = case_when(
       anoest == 1 ~ "Sin educacion",
       anoest == 2 ~ "1 - 6 anos",
@@ -230,17 +200,184 @@ tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_anoest.rds")) %>%
   ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
 
 knitr::kable(
-  tabla_ind1,
-  caption = "Tabla 4. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 3. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
 )
 ```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
 
 #### Figura 3. Mapa del Indicador número 1 desagregado por años de estudio
-```{r incluir-imagen-mapa14, echo=FALSE, out.width="100%"}
+```{r incluir-imagen-mapa141, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_anoest.png"))
 ```
-*Fuente: CEPAL - Elaboración propia con base en la ENADID 2023 (México).*
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+#### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva.
+
+```{r tabla-indicador12-10, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator2_total.rds")) %>%
+  rename(
+    Proporcion = dec_autonomia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 4. Proporción de mujeres que toman decisiones informadas (%)."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+#### Figura 4. Mapa del Indicador número 2 desagregado por entidad federativa
+```{r incluir-imagen-mapa142, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador2total.png"))
+```
+
+```{r tabla-indicador12-30, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator2_etnia.rds")) %>%
+  rename(
+    Proporcion = dec_autonomia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    etnia = case_when(
+         etnia == 1 ~ "Indigena",
+        etnia == 2 ~ "Ninguna",
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 5. Proporción de mujeres que toman decisiones informadas por étnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+#### Figura 5. Mapa del Indicador número 2 desagregado por étnia
+```{r incluir-imagen-mapa1770, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador2_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+```{r tabla-indicador11-4, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator2_anoest.rds")) %>%
+  rename(
+    Proporcion = dec_autonomia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    anoest = case_when(
+      anoest == 1 ~ "Sin educacion",
+      anoest == 2 ~ "1 - 6 anos",
+      anoest == 3 ~ "7 - 12 anos",
+      anoest == 4 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 6. Proporción de mujeres que toman decisiones informadas por año de estudios"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+#### Figura 6. Mapa del Indicador número 2 desagregado por años de estudio
+```{r incluir-imagen-mapa143, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador2_anoest.png"))
+```
+
+
+#### Indicador 3.Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses (15-49 años).
+
+```{r tabla-indicador100-10, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator3_total.rds")) %>%
+  rename(
+    Proporcion = violencia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 7. Proporción de mujeres 15-49 años que sufrieron violencia de pareja."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+#### Figura 7. Mapa del Indicador número 2 desagregado por entidad federativa
+```{r incluir-imagen-mapa144, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador3total.png"))
+```
+
+```{r tabla-indicador12-31, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator3_etnia.rds")) %>%
+  rename(
+    Proporcion = violencia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    etnia = case_when(
+         etnia == 1 ~ "Indigena",
+        etnia == 2 ~ "Ninguna",
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 8. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por étnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+#### Figura 8. Mapa del Indicador número 2 desagregado por étnia
+```{r incluir-imagen-mapa177, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador2_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+```{r tabla-indicador11-41, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "MEX/indicator3_anoest.rds")) %>%
+  rename(
+    Proporcion = violencia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    anoest = case_when(
+      anoest == 1 ~ "Sin educacion",
+      anoest == 2 ~ "1 - 6 anos",
+      anoest == 3 ~ "7 - 12 anos",
+      anoest == 4 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 9. PProporción de mujeres 15-49 años que sufrieron violencia de pareja por año de estudios"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+#### Figura 9. Mapa del Indicador número 2 desagregado por años de estudio
+```{r incluir-imagen-mapa140, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador3_anoest.png"))
+```
 
 
 ### Encuesta de demografía y salud(EDSA 2023) de Bolívia.

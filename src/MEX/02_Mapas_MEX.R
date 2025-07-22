@@ -79,7 +79,7 @@ indicador1_etnia <- readRDS(file.path(output, "MEX", "indicator1_etnia.rds")) %>
   mutate(
     etnia = case_when(
       etnia == 1 ~ "Indigena",
-      etnia == 2 ~ "Otros",
+      etnia == 2 ~ "Ninguna",
       TRUE ~ NA_character_
     ),
     dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
@@ -106,12 +106,12 @@ mapa_indicador1_indi <- tm_shape(mapa_indicador1_ind) +
   )
 
 mapa_indicador1_ots <- Shape_MEX %>%
-  left_join(indicador1_etnia %>% filter(etnia == "Otros"), by = "dam")
+  left_join(indicador1_etnia %>% filter(etnia == "Ninguna"), by = "dam")
 
 mapa_indicador1_ots <- tm_shape(mapa_indicador1_ots) +
   tm_polygons(
     col = "union18",
-    title = " Indicador1 - Otros",
+    title = " Indicador1 - Ninguna",
     palette = "YlOrRd",
     breaks = brks,
     bstyle = "kmeans", na.color = "grey", legend.show = TRUE,
@@ -446,7 +446,7 @@ indicador2_etnia <- readRDS(file.path(output, "MEX", "indicator2_etnia.rds")) %>
   mutate(
     etnia = case_when(
       etnia == 1 ~ "Indigena",
-      etnia == 2 ~ "Otros",
+      etnia == 2 ~ "Ninguna",
       TRUE ~ NA_character_
     ),
     dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
@@ -473,12 +473,12 @@ mapa_indicador2_ind <- tm_shape(mapa_indicador2_ind) +
   )
 
 mapa_indicador2_ots <- Shape_MEX %>%
-  left_join(indicador2_etnia %>% filter(etnia == "Otros"), by = "dam")
+  left_join(indicador2_etnia %>% filter(etnia == "Ninguna"), by = "dam")
 
 mapa_indicador2_ots <- tm_shape(mapa_indicador2_ots) +
   tm_polygons(
     col = "dec_autonomia",
-    title = " Indicador2 - Otros",
+    title = " Indicador2 - Ninguna",
     palette = "YlOrRd",
     breaks = brks,
     bstyle = "kmeans", na.color = "grey", legend.show = TRUE,
@@ -716,7 +716,7 @@ indicador3_etnia <- readRDS(file.path(output, "MEX", "indicator3_etnia.rds")) %>
   mutate(
     etnia = case_when(
       etnia == 1 ~ "Indigena",
-      etnia == 2 ~ "Otros",
+      etnia == 2 ~ "Ninguna",
       TRUE ~ NA_character_
     ),
     dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
@@ -743,7 +743,7 @@ mapa_indicador3_ind <- tm_shape(mapa_indicador3_ind) +
   )
 
 mapa_indicador3_ots <- Shape_MEX %>%
-  left_join(indicador3_etnia %>% filter(etnia == "Otros"), by = "dam")
+  left_join(indicador3_etnia %>% filter(etnia == "Ninguna"), by = "dam")
 
 mapa_indicador3_ots <- tm_shape(mapa_indicador3_ots) +
   tm_polygons(
