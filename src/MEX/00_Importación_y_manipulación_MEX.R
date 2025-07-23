@@ -121,7 +121,7 @@ base_muj <- TB_SEC_IVaVD %>% select(
 base_unida <- base_muj %>%
   left_join(base_demo, by = c("ID_VIV", "ID_PER"))
 
-# Verificamos la unión
+
 glimpse(base_unida)
 
 save(base_unida, file = file.path(output, "ENDIREH_modulo_mujeres_2021.RData"))
