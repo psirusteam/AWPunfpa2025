@@ -22,7 +22,7 @@ src <- file.path(b_path, "src")
 
 ## Análisis de las últimas encuestas sobre salud y demografía en México, Bolivia y Colombia
 
-Este informe presenta un análisis descriptivo de la estructura y el diseño muestral de tres encuestas recientes: la **Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (ENDIREH 2021)** de México, la **Encuesta de Demografía y Salud (EDSA 2023)** de Bolivia y la **Encuesta Nacional de Demografía y Salud (ENDS 2025)** de Colombia. Se examinan elementos como los módulos temáticos, las variables clave, las poblaciones objetivo y el diseño muestral. El análisis se desarrolla de manera individual para cada encuesta, permitiendo revisar sus enfoques metodológicos, su comparabilidad y los retos en la construcción de indicadores de género y salud reproductiva.
+Este informe presenta un análisis descriptivo de la estructura y el diseño muestral de tres encuestas: la **Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (ENDIREH 2021)** de México, la **Encuesta de Demografía y Salud (EDSA 2023)** de Bolivia y la **Encuesta Nacional de Demografía y Salud (ENDS 2015)** de Colombia. Se examinan elementos como los módulos temáticos, variables clave, las poblaciones objetivo y el diseño muestral. El análisis se desarrolla de manera individual para cada encuesta, permitiendo revisar sus enfoques metodológicos, su comparabilidad y los retos en la construcción de indicadores de género y salud reproductiva.
 
 ### Encuesta Nacional sobre la Dinámica de las Relaciones en los Hogares (ENDIREH 2021) – México
 
@@ -154,6 +154,8 @@ knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_total.png"
 ```
 *Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
 
+La Figura 1 presenta la distribución del Indicador 1 a nivel estatal en México, que muestra la proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años. Se observa una mayor concentración de uniones tempranas en entidades del sur y centro del país, destacándose estados como Chiapas, Guerrero y Veracruz con proporciones superiores al 60%. Sin embargo, algunos valores como los reportados en Campeche, Zacatecas y Yucatán (100%) deben interpretarse con cautela, ya que probablemente se deben a tamaños muestrales muy reducidos. Estos casos podrían considerarse atípicos y no representar con precisión la situación real de esas entidades.
+
 ```{r tabla-indicador11-30, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_etnia.rds")) %>%
   rename(
@@ -182,6 +184,8 @@ knitr::kable(
 knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_etnia.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+La desagregación del Indicador 1 por pertenencia étnica revela diferencias significativas entre mujeres indígenas y no indígenas de 20 a 24 años en relación con las uniones tempranas antes de los 15 o 18 años. En general, se observa una mayor proporción de uniones tempranas entre mujeres indígenas en varias entidades del sur y centro del país, como Oaxaca, Chiapas, Guerrero y Veracruz, donde se reportan valores superiores al 70%. Por su parte, entre las mujeres no indígenas, aunque también se presentan altas proporciones en estados como Campeche, San Luis Potosí y Coahuila, los niveles tienden a ser menores y más distribuidos de forma heterogénea entre regiones.
 ```{r tabla-indicador11-40, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "MEX/indicator1_anoest.rds")) %>%
   rename(
@@ -212,6 +216,9 @@ knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador1_anoest.png
 ```
 *Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
 
+El análisis del Indicador 1 según el nivel educativo evidencia una relación inversa entre la escolaridad y la proporción de mujeres de 20 a 24 años que se unieron antes de los 15 o 18 años. Las mayores proporciones se observan entre quienes tienen entre 7 y 12 años de educación, con entidades como Guerrero, Oaxaca, Chiapas, San Luis Potosí y Veracruz mostrando valores superiores al 60%. Esto puede reflejar una concentración de mujeres con este nivel educativo en contextos donde las uniones tempranas aún son comunes. Por otro lado, en el grupo con más de 12 años de educación, las proporciones son mucho más bajas y, en muchos casos, inexistentes, lo cual sugiere un efecto protector de la educación prolongada frente a las uniones tempranas.
+
+
 #### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva.
 
 ```{r tabla-indicador12-10, echo=FALSE}
@@ -237,6 +244,9 @@ knitr::kable(
 ```{r incluir-imagen-mapa142, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador2total.png"))
 ```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+El Indicador 2 evidencia una baja proporción de mujeres de 15 a 49 años que toman decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva. En la mayoría de los estados, este porcentaje no supera el 6%. Los valores más altos se observan en las estatales 03, 10, 28, 29 y 31, con proporciones cercanas o superiores al 5%. En contraste, los estados 07, 20, 21 y 30 presentan los niveles más bajos, por debajo del 2,5%, lo cual indica una limitada autonomía reproductiva en esas regiones. Esta distribución sugiere una marcada desigualdad territorial en el ejercicio de los derechos sexuales y reproductivos, con necesidades específicas de intervención en los territorios con menor proporción. Los coeficientes de variación (CV) se mantienen en general por debajo del 20%, lo cual otorga confianza razonable a las estimaciones presentadas.
 
 ```{r tabla-indicador12-30, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "MEX/indicator2_etnia.rds")) %>%
@@ -266,6 +276,9 @@ knitr::kable(
 knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador2_etnia.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+El análisis del Indicador 2 según etnia revela disparidades relevantes en la proporción de mujeres indígenas de 15 a 49 años que toman decisiones informadas sobre relaciones sexuales, anticoncepción y salud reproductiva. Algunos estados como 03, 08, 10, 14, 28, 29 y 31 presentan proporciones superiores al 5%, lo que indica mayores niveles de autonomía en estos contextos. En cambio, territorios como  07, 09, 13, 15, 16 y 30 muestran proporciones menores al 2.5%, lo cual refleja condiciones más restrictivas para el ejercicio de sus derechos reproductivos. Por su parte, la población no indígena presenta porcentajes más uniformes, aunque también bajos en entidades como 07, 20, 21 y 30. Estas diferencias étnico-territoriales evidencian la necesidad de intervenciones diferenciadas que reconozcan tanto la pertenencia étnica como las brechas regionales en el acceso a información, servicios y capacidad de decisión.
+
 ```{r tabla-indicador11-4, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "MEX/indicator2_anoest.rds")) %>%
   rename(
@@ -294,7 +307,8 @@ knitr::kable(
 ```{r incluir-imagen-mapa143, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador2_anoest.png"))
 ```
-
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+El análisis del Indicador 2 según el nivel educativo evidencia una clara asociación entre menor escolaridad y menor capacidad de decisión informada en salud sexual y reproductiva entre las mujeres de 15 a 49 años. Las entidades con mujeres sin educación formal presentan importantes proporciones de autonomía en algunos casos atípicos como 09, 14, 25 y 28, aunque estos valores deben interpretarse con precaución debido a los altos coeficientes de variación reportados. En general, los niveles de decisión informada son bajos o inexistentes para esta población en la mayoría de territorios. Para las mujeres con 1 a 6 años de educación, los valores son levemente superiores, destacando estados como 01, 04, 09, 10, 14, 28 y 31, pero siguen evidenciando una situación de vulnerabilidad. En contraste, las mujeres con 7 a 12 años de educación muestran una distribución más homogénea, con proporciones entre el 3% y el 6%, y mayor estabilidad estadística. Finalmente, entre quienes tienen más de 12 años de estudios, aunque se observan niveles más consistentes de decisión informada, estos siguen siendo bajos en términos absolutos, lo que sugiere que la educación formal es un factor facilitador pero no suficiente por sí solo para garantizar autonomía plena.
 
 #### Indicador 3.Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses (15-49 años).
 
@@ -321,6 +335,9 @@ knitr::kable(
 ```{r incluir-imagen-mapa144, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador3total.png"))
 ```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+El Indicador 3 revela una alta prevalencia de violencia de pareja contra mujeres de 15 a 49 años en varias entidades federativas de México. Destacan con las proporciones más elevadas los estados 12, 22, 01, 16, 13 y 31, con valores que superan el 23%. Por el contrario, se observan niveles comparativamente más bajos en entidades como 02, 07, 28 y 03, cuyas proporciones están por debajo del 18%. A pesar de estas diferencias, la mayoría de los territorios presentan tasas superiores al 20%, lo que confirma que esta forma de violencia es un fenómeno generalizado que requiere intervenciones urgentes, sostenidas y territorialmente diferenciadas. Los coeficientes de variación son bajos, lo que otorga confianza a los estimadores presentados.
 
 ```{r tabla-indicador12-31, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "MEX/indicator3_etnia.rds")) %>%
@@ -347,9 +364,12 @@ knitr::kable(
 
 #### Figura 8. Mapa del Indicador número 2 desagregado por étnia
 ```{r incluir-imagen-mapa177, echo=FALSE, out.width="100%"}
-knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador2_etnia.png"))
+knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador3_etnia.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
+
+El análisis del Indicador 3 desagregado por pertenencia étnica evidencia una mayor prevalencia de violencia de pareja entre las mujeres indígenas de 15 a 49 años en comparación con las que no se identifican como indígenas. En estados con alta concentración indígena como los estados 12, 22, 01, 16 y 32, las proporciones superan el 25%, siendo notablemente más altas que las de la población no indígena en las mismas entidades. Por ejemplo, en el estado 12, la prevalencia en mujeres indígenas alcanza 26.8%, mientras que en mujeres no indígenas es de 25.2%. Esta tendencia se repite en varias regiones del centro y sur del país, reflejando una intersección de vulnerabilidades asociadas tanto al género como a la pertenencia étnica. 
+
 ```{r tabla-indicador11-41, echo=FALSE}
 tabla_ind1 <- readRDS(file.path(output, "MEX/indicator3_anoest.rds")) %>%
   rename(
@@ -378,7 +398,9 @@ knitr::kable(
 ```{r incluir-imagen-mapa140, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "MEX/img/mosaico_indicador3_anoest.png"))
 ```
+*Fuente: CEPAL - Elaboración propia con base en la ENDIREH 2021 (México).*
 
+La violencia de pareja afecta a mujeres de todos los niveles educativos, aunque con variaciones significativas en su magnitud. Las mujeres con entre 7 y 12 años de estudio presentan las proporciones más altas de violencia en la mayoría de los estados, con prevalencias que en varios casos superan el 25%, como ocurre en los estados 12, 13, 14, 16 y 22. Esta tendencia se mantiene también entre mujeres con más de 12 años de educación, aunque con una leve disminución en algunos territorios. Llama la atención que incluso entre mujeres sin educación formal, las tasas son igualmente elevadas en ciertos estados (por ejemplo, 32), aunque en general se observa mayor dispersión y coeficientes de variación más altos, lo que indica menor precisión en esas estimaciones. Estos resultados sugieren que el nivel educativo no protege de manera consistente contra la violencia de pareja.
 
 ### Encuesta de demografía y salud(EDSA 2023) de Bolívia.
 
@@ -502,7 +524,7 @@ tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_total.rds")) %>%
 
 knitr::kable(
   tabla_ind1,
-  caption = "Tabla 1. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años."
+  caption = "Tabla 10. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años."
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -528,14 +550,14 @@ tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_area.rds")) %>%
 
 knitr::kable(
   tabla_ind1,
-  caption = "Tabla 2. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por area."
+  caption = "Tabla 11. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por area."
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
 La desagregación del indicador por área urbana y rural permite observar diferencias importantes entre regiones. Sin embargo, algunas proporciones extremas (como 0% o 100%) junto con coeficientes de variación (CV) no disponibles (NaN) o excesivamente altos (por encima del 30%) reflejan limitaciones de representatividad y precisión estadística, asociadas principalmente al bajo número de casos válidos en ciertas combinaciones de departamento y área.
 
-### Figura 1. Mapa del Indicador número 1 desagregado por área geográfica
+### Figura 10. Mapa del Indicador número 1 desagregado por área geográfica
 ```{r incluir-imagen-mapa1, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador1_area.png"))
 ```
@@ -561,14 +583,14 @@ tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_etnia.rds")) %>%
 
 knitr::kable(
   tabla_ind1,
-  caption = "Tabla 3. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por etnia"
+  caption = "Tabla 12. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por etnia"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
 La desagregación del indicador por pertenencia étnica muestra diferencias aparentes en la proporción de mujeres jóvenes unidas antes de los 15 o 18 años entre grupos étnicos. No obstante, muchos de los coeficientes de variación (CV) son inexistentes o extremadamente elevados (por ejemplo, superiores al 100%), lo cual indica una alta incertidumbre en las estimaciones. Estos problemas se deben, en gran medida, a tamaños muestrales reducidos por grupo étnico en varios departamentos. Por ejemplo, en los casos donde la proporción es 0% o 100%, el CV no puede calcularse de forma confiable, y los resultados pueden estar influenciados por la ausencia de casos o la presencia de solo uno o dos. 
 
-### Figura 2. Mapa del Indicador número 1 desagregado por étnia
+### Figura 11. Mapa del Indicador número 1 desagregado por étnia
 ```{r incluir-imagen-mapa2, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador1_etnia.png"))
 ```
@@ -593,14 +615,14 @@ tabla_ind1 <- readRDS(file.path(output, "Bol/indicator1_anoest.rds")) %>%
 
 knitr::kable(
   tabla_ind1,
-  caption = "Tabla 4. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
+  caption = "Tabla 13. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
 La desagregación del indicador según los años de educación muestra que las mujeres jóvenes con menor nivel educativo tienden a presentar mayores proporciones de uniones tempranas. Sin embargo, los resultados deben leerse con cautela debido a la alta proporción de valores perdidos o sin varianza, reflejada en los valores faltantes (NaN) del coeficiente de variación (CV). Además, algunos casos presentan valores extremos como 100%, lo que sugiere tamaños muestrales muy pequeños que no permiten inferencias robustas.
 
-### Figura 3. Mapa del Indicador número 1 desagregado por años de estudio
+### Figura 12. Mapa del Indicador número 1 desagregado por años de estudio
 
 ```{r incluir-imagen-mapa3, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador1_anoest.png"))
@@ -625,7 +647,7 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator_2total.rds")) %>%
 
 knitr::kable(
   tabla_ind2,
-  caption = "Tabla 5. Proporción de mujeres que toman decisiones informadas (%)"
+  caption = "Tabla 14. Proporción de mujeres que toman decisiones informadas (%)"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -651,7 +673,7 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_area.rds")) %>%
 
 knitr::kable(
   tabla_ind2,
-  caption = "Tabla 6. Proporción de mujeres que toman decisiones informadas por área (%)"
+  caption = "Tabla 15. Proporción de mujeres que toman decisiones informadas por área (%)"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -659,7 +681,7 @@ knitr::kable(
 La capacidad de tomar decisiones informadas entre mujeres de 20 a 24 años presenta variaciones importantes entre zonas urbanas y rurales. En general, las zonas urbanas tienden a mostrar proporciones más altas y coeficientes de variación (CV) más bajos, lo que implica mayor precisión en las estimaciones. Destacan los departamentos 07 y 08 con porcentajes superiores al 15% tanto en áreas urbanas como rurales, y CVs por debajo del 20%, lo que refuerza la confiabilidad de los datos. En contraste, se observan valores bajos y alta incertidumbre (CVs superiores al 40%) en zonas rurales de departamentos como 02, 04 y 05, lo que limita la capacidad del análisis.
 
 
-### Figura 4. Mapa del Indicador número 2 desagregado por área geográfica
+### Figura 13. Mapa del Indicador número 2 desagregado por área geográfica
 ```{r incluir-imagen-mapa4, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_area.png"))
 ```
@@ -685,14 +707,14 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_etnia.rds")) %>%
 
 knitr::kable(
   tabla_ind2,
-  caption = "Tabla 7. Proporcion de mujeres que toman decisiones informadas por etnia"
+  caption = "Tabla 16. Proporcion de mujeres que toman decisiones informadas por etnia"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
 La proporción de mujeres que toman decisiones informadas muestra diferencias por pertenencia étnica y departamento. Se observa que las mujeres indígenas o afrobolivianas tienden a registrar proporciones menores y con mayor variabilidad estadística, reflejada en CVs elevados, especialmente en departamentos como el 06 y 07. Por otra parte, los valores asociados al grupo “No es boliviana” deben interpretarse con precaución debido a posibles tamaños muestrales reducidos o valores extremos (como el 100% en algunos departamentos), lo que puede inflar el CV o generar datos faltantes (NaN). 
 
-### Figura 5. Mapa del Indicador número 2 desagregado por étnia
+### Figura 14. Mapa del Indicador número 2 desagregado por étnia
 ```{r incluir-imagen-mapa5, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_etnia.png"))
 ```
@@ -717,14 +739,14 @@ tabla_ind2 <- readRDS(file.path(output, "Bol/indicator2_anoest.rds")) %>%
 
 knitr::kable(
   tabla_ind2,
-  caption = "Tabla 8. Proporción de mujeres que toman decisiones informadas por año de estudios (%)"
+  caption = "Tabla 17. Proporción de mujeres que toman decisiones informadas por año de estudios (%)"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
 
 La proporción de mujeres de 20 a 24 años que toman decisiones informadas tiende a aumentar con el nivel educativo alcanzado. Se identifican valores notablemente bajos y coeficientes de variación altos (CV > 30%) entre quienes no tienen educación formal o solo alcanzaron entre 1 y 6 años de estudio, especialmente en departamentos como el 02, 04, 05 y 06. Por el contrario, las mujeres con más de 12 años de educación registran proporciones más elevadas y estables, con CV menores a 25% en varios departamentos, indicando mayor precisión en las estimaciones.
 
-### Figura 6. Mapa del Indicador número 2 desagregado por años de estudio
+### Figura 15. Mapa del Indicador número 2 desagregado por años de estudio
 
 ```{r incluir-imagen-mapa6, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador2_anoest.png"))
@@ -748,7 +770,7 @@ tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_total.rds")) %>%
 
 knitr::kable(
   tabla_ind3,
-  caption = "Tabla 9. Proporción de mujeres 15-49 años que sufrieron violencia de pareja"
+  caption = "Tabla 18. Proporción de mujeres 15-49 años que sufrieron violencia de pareja"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -774,7 +796,7 @@ tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_area.rds")) %>%
 
 knitr::kable(
   tabla_ind3,
-  caption = "Tabla 10. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por área"
+  caption = "Tabla 19. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por área"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -783,7 +805,7 @@ Al desagregar la proporción de mujeres de 15 a 49 años que reportaron haber su
 
 En contraste, las zonas rurales muestran mayor variabilidad y menor precisión, con algunos departamentos reportando CV superiores al 40% (como el departamento 07) y un caso con valor de 0% y CV indefinido (NaN) en el departamento 09, lo que sugiere una insuficiencia de datos o ausencia de casos válidos.
 
-### Figura 7. Mapa del Indicador número 3 desagregado por área geográfica
+### Figura 16. Mapa del Indicador número 3 desagregado por área geográfica
 ```{r incluir-imagen-mapa7, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador3_area.png"))
 ```
@@ -809,7 +831,7 @@ tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_etnia.rds")) %>%
 
 knitr::kable(
   tabla_ind3,
-  caption = "Tabla 11. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por etnia"
+  caption = "Tabla 20. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por etnia"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -820,7 +842,7 @@ Por otro lado, las mujeres que no se identifican como pertenecientes a ningún g
 
 También se identifican casos con proporciones extremas (0% o 100%) y CV de 0 o indefinido (NaN), lo que indica ausencia de casos válidos o tamaños muestrales muy reducidos, como en algunos grupos etiquetados como “No es boliviana”, los cuales deben ser interpretados con reserva.
 
-### Figura 8. Mapa del Indicador número 3 desagregado por étnia
+### Figura 17. Mapa del Indicador número 3 desagregado por étnia
 ```{r incluir-imagen-mapa8, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador3_etnia.png"))
 ```
@@ -845,7 +867,7 @@ tabla_ind3 <- readRDS(file.path(output, "Bol/indicator3_anoest.rds")) %>%
 
 knitr::kable(
   tabla_ind3,
-  caption = "Tabla 12. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por año de estudio"
+  caption = "Tabla 21. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por año de estudio"
 )
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
@@ -854,9 +876,333 @@ Los resultados muestran una tendencia donde las mujeres con niveles intermedios 
 
 En particular, destacan valores de CV superiores al 30% e incluso por encima del 70% en observaciones de mujeres sin educación, lo que limita la precisión y confiabilidad de estos resultados. Esta alta variabilidad puede deberse a tamaños de muestra reducidos o a una alta dispersión de respuestas.
 
-### Figura 9. Mapa del Indicador número 3 desagregado por años de estudio
+### Figura 18. Mapa del Indicador número 3 desagregado por años de estudio
 
 ```{r incluir-imagen-mapa9, echo=FALSE, out.width="100%"}
 knitr::include_graphics(file.path(output, "Bol/img/mosaico_indicador3_anoest.png"))
 ```
 *Fuente: CEPAL - Elaboración propia con base en la EDSA 2023 (Bolivia).*
+
+
+### Encuesta Nacional de Demografía y Salud (ENDS 2025)- Colombia.
+
+La Encuesta Nacional de Demografía y Salud (ENDS) 2015 tuvo como objetivo general identificar los cambios demográficos ocurridos en Colombia entre 2010 y 2015, así como recolectar información actualizada sobre los conocimientos, actitudes y prácticas en salud sexual y reproductiva de mujeres y hombres en edad fértil. De manera específica, la encuesta permitió caracterizar la estructura poblacional, condiciones habitacionales, niveles de migración, mortalidad infantil y adulta, determinantes de la fecundidad, necesidades anticonceptivas, uso de servicios de salud materno-infantil, conocimiento sobre ITS y VIH/Sida, prácticas preventivas en salud, niveles de violencia basada en género, autonomía en la toma de decisiones del hogar y percepción sobre la educación integral en sexualidad, visibilizando desigualdades entre mujeres y hombres.
+
+- **Unidad de observación:** La unidad de análisis del módulo de mujeres corresponde a:
+
+Mujeres en edad fértil (de 13 a 49 años) residentes habituales de los hogares seleccionados.
+
+- **Tamaño de muestra:** 44,614 hogares.
+
+- **Diseño muestral:** Probabilístico, estratificado, multietápico y por conglomerados. 
+
+- **Ámbitos de cobertura:** Nacional, con representatividad para 33 regiones (32 departamentos y Bogotá D.C.).
+
+- **Factores de expansión:** Ajustados por no respuesta y calibrados por estimaciones de población.
+
+
+#### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años
+
+**Población objetivo:** Mujeres entre 20 y 24 años.
+
+**Variables utilizadas:**
+
+- `v012`: Edad actual de la mujer.
+
+- `v511`: Edad a la primera unión (marital o consensual).
+
+**Variables derivadas:**
+
+- `union18`: Toma el valor 1 si la mujer se unió antes de los 18 años, 0 en caso contrario, y NA si no aplica.
+
+**Numerador:** Número de mujeres de 20 a 24 años que estuvieron casadas o unidas antes de los 18 años.
+
+**Denominador:** Total de mujeres de 20 a 24 años.
+
+#### Indicador 2. Proporción de mujeres de 15 a 49 años que toman sus propias decisiones informadas sobre relaciones sexuales, uso de anticonceptivos y atención en salud reproductiva
+
+El Indicador 2, que estima la proporción de mujeres de 15 a 49 años casadas o en unión que toman decisiones informadas sobre su salud sexual y reproductiva, requiere que se cumplan simultáneamente tres criterios: decidir autónomamente sobre su atención sanitaria, el uso de métodos anticonceptivos y la posibilidad de negarse a tener relaciones sexuales. Si bien la Encuesta Nacional de Demografía y Salud (ENDS) incluye preguntas relacionadas con los dos primeros criterios, no se encontró disponible en los microdatos publicados la variable correspondiente a la decisión de “quién puede decir no al sexo”. Esta pregunta, aunque sí está formulada en el cuestionario aplicado, no fue liberada en ninguna de las bases de datos disponibles, ni en los módulos individuales ni en los conjuntos integrados. Debido a esta ausencia, no fue posible calcular este indicador, ya que el cumplimiento parcial de los criterios no permite una estimación válida según la metodología internacionalmente establecida.
+
+#### Indicador 3.Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses (15-49 años).
+
+
+**Población objetivo:** Mujeres de 15 a 49 años que han tenido pareja.
+
+**Variables utilizadas:**
+- `d105a` a `d105h`: Reportes de violencia física y sexual sufrida en los últimos 12 meses.
+
+- `d101a` a `d103e` : Preguntas sobre violencia psicológica o control ejercido por la pareja.
+
+- `v501`: Estado conyugal actual (1: casada, 2: en unión libre, 3: viuda, 4: divorciada, 5: separada).
+
+- `v502`: Estado conyugal previo (1: Alguna vez casada, 2: Alguna vez en unión libre) .
+
+**Variable derivada:**
+- `par_12m`: Toma el valor 1 si la mujer ha tenido pareja en los últimos 12 meses (por `v501` o `v502`).
+
+- `violencia`: oma el valor 1 si la mujer ha tenido pareja (par_12m == 1) y reporta al menos un tipo de violencia física, sexual o psicológica en los últimos 12 meses..
+
+**Numerador:** Mujeres que reportaron al menos un acto de violencia física, sexual o psicológica ejercido por una pareja actual o anterior en los últimos 12 meses.
+
+**Denominador:** Total de mujeres de 15 a 49 años con pareja actual o pasada en los últimos 12 meses.
+
+### Resultados - Colombia
+
+#### Indicador 1. Proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años.
+
+```{r tabla-indicador1CO-10, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "COL/indicator1_total.rds")) %>%
+  rename(
+    Proporcion = union18,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 22. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+#### Figura 19. Mapa del Indicador número 1 desagregado por departamento
+```{r incluir-imagen-mapaCO120, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "COL/img/mosaico_indicador1_total.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+El análisis territorial del Indicador 1 muestra una preocupante persistencia de uniones tempranas en varias regiones del país. Los departamentos con mayor proporción de mujeres de 20 a 24 años que estuvieron casadas o en unión antes de los 15 o 18 años son Guainía (94), con un 44,5%; Amazonas (91), con un 39,9%; y Vaupés (97), con un 37,8%. En contraste, departamentos como  Boyacá (15), y Santander (68) registran proporciones menores, aunque no exentas del fenómeno.
+
+```{r tabla-indicador1CO-31, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "COL/indicator1_area.rds")) %>%
+  rename(
+    Proporcion = union18,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    area = case_when(
+      area == 1 ~ "Urbana",
+      area == 2 ~ "Rural",
+      TRUE ~ NA_character_
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 23. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por área"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+#### Figura 20. Mapa del Indicador número 1 desagregado por área
+```{r incluir-imagen-mapaCO110, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "COL/img/mosaico_indicador1_area.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+La desagregación del indicador por área urbana y rural revela una clara brecha territorial en la ocurrencia de uniones tempranas. En el área rural, las proporciones son considerablemente más altas en la mayoría de los departamentos, superando en muchos casos el 40%. Departamentos como Cesar (20) con un 61,4%, Chocó (27) con 52,9%, Guanía (94) con 51,1%, y Amazonas (91) con 49,9% muestran cifras alarmantes que evidencian la persistencia de prácticas culturales o contextos estructurales que favorecen las uniones tempranas entre adolescentes.
+
+En contraste, en las zonas urbanas, los valores son más bajos, aunque aún se observan cifras elevadas en algunos departamentos como San Andres (88) con 33,2%, Amazonas (81) con 29,0%, y Córdoba (23) con 21,1%.
+Llama la atención que en Bogotá (11) no se registran casos en la zona rural (probablemente por ausencia de esta categoría administrativa), y que hay departamentos como Cundinamarca (25), Huila (41) y Tolima (73) donde, aunque las cifras urbanas son moderadas, las rurales muestran un riesgo elevado.
+
+
+```{r tabla-indicador1CO-30, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "COL/indicator1_etnia.rds")) %>%
+  rename(
+    Proporcion = union18,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    etnia = case_when(
+      etnia == 1 ~ "Indigena",
+      etnia == 2 ~ "Afro",
+      etnia == 3 ~ "Otra",
+      etnia == 4 ~ "Ninguno"
+      ,
+      TRUE ~ NA_character_
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 24. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por étnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+#### Figura 21. Mapa del Indicador número 1 desagregado por étnia
+```{r incluir-imagen-mapaCO111, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "COL/img/mosaico_indicador1_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+El análisis del Indicador 1 en Colombia, que mide la proporción de mujeres de 20 a 24 años que se unieron antes de los 15 o 18 años según grupo étnico, evidencia profundas desigualdades. Las mujeres indígenas presentan las prevalencias más altas, superando en varios departamentos el 60%, e incluso alcanzando el 100% en Arauca (91), Magdalena (47) y Caquetá (18), aunque estos valores deben tomarse con cautela por posibles tamaños muestrales reducidos. En la población afrodescendiente también se observan niveles elevados, especialmente en departamentos como Cauca (19), Caquetá (18) y Cundinamarca (25). En contraste, las mujeres sin autorreconocimiento étnico registran cifras intermedias, aunque en territorios como Guainia (94) y Casanare (85) superan el 30%. Estos resultados reflejan cómo la pertenencia étnica y el territorio influyen significativamente en la ocurrencia de uniones tempranas.
+
+```{r tabla-indicadorCO11-40, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "COL/indicator1_anoest.rds")) %>%
+  rename(
+    Proporcion = union18,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    anoest = case_when(
+      anoest == 0 ~ "Sin educacion",
+      anoest == 1 ~ "1 - 6 anos",
+      anoest == 2 ~ "7 - 12 anos",
+      anoest == 3 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 25. Proporción de mujeres de 20-24 años que se unieron antes de los 15 o 18 años por año de estudios"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+#### Figura 22. Mapa del Indicador número 1 desagregado por años de estudio
+```{r incluir-imagen-mapaCO141, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "COL/img/mosaico_indicador1_anoest.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+El análisis del Indicador 1 por nivel educativo en Colombia revela una relación inversamente proporcional entre los años de estudio y la ocurrencia de uniones tempranas. Las mujeres sin educación formal presentan las proporciones más elevadas de uniones antes de los 15 o 18 años, con valores de 100% en departamentos como  Bolívar (13), Córdoba (23), Nariño (52), Norte de Santander (54), y Guainía (94), aunque estos resultados deben leerse con cautela por los posibles tamaños muestrales reducidos. En el grupo con 1 a 6 años de escolaridad también se observan cifras altas, como en Putumayo (86), Cundinamarca (25), Caldas (17) y Quindio (63), con prevalencias entre el 60% y el 85%. Por su parte, en las mujeres con 7 a 12 años de estudios las proporciones descienden notablemente, oscilando entre el 25% y 50% en la mayoría de los territorios. Finalmente, las mujeres con más de 12 años de escolaridad muestran las cifras más bajas de uniones tempranas, con la mayoría de departamentos por debajo del 20%, como Bogotá (11), Antioquia (05), Valle del Cauca (76) y Santander (68). Estos hallazgos evidencian cómo la permanencia en el sistema educativo opera como un factor protector frente a las uniones tempranas.
+
+#### Indicador 3.Proporción de mujeres y niñas de 15 años o más que hayan tenido pareja alguna vez y hayan sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses.
+
+```{r tabla-indicador100CO-10, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "COL/indicator3_total.rds")) %>%
+  rename(
+    Proporcion = violencia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1) ,
+    dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 26. Proporción de mujeres 15-49 años que sufrieron violencia de pareja."
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+#### Figura 23. Mapa del Indicador número 3 desagregado por departamento
+```{r incluir-imagen-mapa144CO, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "COL/img/mosaico_indicador3_total.png"))
+```
+
+El análisis del Indicador 3, que mide la proporción de mujeres de 15 a 49 años que han sufrido violencia física, sexual o psicológica por parte de una pareja actual o anterior en los últimos 12 meses, revela una preocupante prevalencia de este fenómeno en Colombia. En al menos 16 departamentos, más del 50% de las mujeres han experimentado este tipo de violencia, destacándose casos como Amazonas (91) con 64,0%, Quindío (63) y Risaralda (66) con 62,0%, y Norte de Santander (54) con 58,6%. También se registran niveles elevados en departamentos como Meta (50), Nariño (52), Chocó (27), Valle del Cauca (76), y Bolívar (13), todos por encima del 54%. En contraste, algunas regiones presentan proporciones inferiores al 40%, como Magdalena (47), Guainía (94) y Sucre (70). 
+
+```{r tabla-indicadorCO121-31, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "COL/indicator3_area.rds")) %>%
+  rename(
+    Proporcion = violencia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    area = case_when(
+      area == 1 ~ "Urbana",
+      area == 2 ~ "Rural",
+      TRUE ~ NA_character_
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 27. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por área"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+#### Figura 24. Mapa del Indicador número 2 desagregado por área
+```{r incluir-imagen-mapaCO178, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "COL/img/mosaico_indicador3_area.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+El análisis del Indicador 3 según área de residencia muestra una alta prevalencia de violencia de pareja tanto en zonas urbanas como rurales de Colombia, aunque con diferencias territoriales significativas. En áreas urbanas, más del 60% de las mujeres han reportado haber sufrido violencia en departamentos como Amazonas (91), Quindío (63), Risaralda (66) y Nariño (52). También se evidencian niveles superiores al 50% en Arauca (81), Valle del Cauca (76), y Tolima (73), lo que indica que este fenómeno no se restringe a una sola región del país. En zonas rurales, los niveles de violencia también son alarmantes: en departamentos como Arauca (81), Amazonas (91), y San Andres (88), las cifras superan el 60%. Aunque algunos territorios rurales como Magdalena (47) y Cesar (20) presentan proporciones inferiores al 40%, el patrón general refleja una alta carga de violencia de pareja en contextos rurales. 
+
+
+```{r tabla-indicadorCO12-31, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "COL/indicator3_etnia.rds")) %>%
+  rename(
+    Proporcion = violencia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    etnia = case_when(
+      etnia == 1 ~ "Indigena",
+      etnia == 2 ~ "Afro",
+      etnia == 3 ~ "Otra",
+      etnia == 4 ~ "Ninguno"
+      ,
+      TRUE ~ NA_character_
+  ),
+  dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0")
+  ) 
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 28. Proporción de mujeres 15-49 años que sufrieron violencia de pareja por étnia"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+#### Figura 25. Mapa del Indicador número 2 desagregado por étnia
+```{r incluir-imagen-mapaCO177, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "COL/img/mosaico_indicador3_etnia.png"))
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+El análisis del Indicador 3 en Colombia revela que la violencia de pareja contra mujeres de 15 a 49 años presenta diferencias significativas según el grupo étnico. Las mujeres indígenas registran prevalencias especialmente altas en departamentos como Norte de Santander (54) con 84,1%, Vaupés (97) con 56,5%, y Arauca (81) con 80,2%, aunque algunos valores extremos, como en Magdalena (47), deben interpretarse con cautela debido a altos coeficientes de variación. En el caso de las mujeres afrodescendientes, se observan niveles alarmantes en Chocó (27) con 59,9%, Cundinamarca (25) con 89,0%, y Vichada (99) con 75,8%. En contraste, las mujeres que no se reconocen en ningún grupo étnico muestran cifras más estables pero también preocupantes, como en Guaviare (95) con 45,2% y Norte de Santander (54) con 58,4%. Estos datos reflejan no solo la magnitud del problema, sino también la manera en que la violencia de pareja se manifiesta con mayor severidad en contextos marcados por pertenencia étnica
+
+```{r tabla-indicadorCO11-41, echo=FALSE}
+tabla_ind1 <- readRDS(file.path(output, "COL/indicator3_anoest.rds")) %>%
+  rename(
+    Proporcion = violencia,
+    CV = cv
+  ) %>%
+  mutate(
+    Proporcion = round(Proporcion * 100, 1),
+    CV = round(CV, 1),
+    anoest = case_when(
+      anoest == 0 ~ "Sin educacion",
+      anoest == 1 ~ "1 - 6 anos",
+      anoest == 2 ~ "7 - 12 anos",
+      anoest == 3 ~ "Mas de 12 anos",
+      TRUE ~ NA_character_
+  ), dam = str_pad(as.character(dam), width = 2, side = "left", pad = "0") )
+
+knitr::kable(
+  tabla_ind1 %>% select(-c("se")),
+  caption = "Tabla 29. PProporción de mujeres 15-49 años que sufrieron violencia de pareja por año de estudios"
+)
+```
+*Fuente: CEPAL - Elaboración propia con base en la ENDS 2015 (Colombia).*
+
+#### Figura 26. Mapa del Indicador número 2 desagregado por años de estudio
+```{r incluir-imagen-mapaCO140, echo=FALSE, out.width="100%"}
+knitr::include_graphics(file.path(output, "COL/img/mosaico_indicador3_anoest.png"))
+```
+
+El análisis del Indicador 3 muestra que la violencia de pareja en mujeres de 15 a 49 años en Colombia guarda una relación inversamente proporcional con el nivel educativo. Las mujeres sin educación formal presentan los niveles más altos de violencia, destacándose departamentos como Chocó (27) con 42,5%, Casanare (85) con 91,2% y Putumayo (86) con 80,0%, aunque con alta incertidumbre estadística en algunos casos. En el grupo de mujeres con 1 a 6 años de escolaridad, las prevalencias también son elevadas, con cifras superiores al 50% en zonas como Cundinamarca (25), Arauca (81), Huila (41), y San Andrés (88). Para quienes tienen entre 7 y 12 años de educación, la violencia sigue siendo significativa, con tasas mayores al 60% en Norte de Santander (54), Chocó(27), Amazonas (91) y San Andrés (88). Finalmente, incluso en mujeres con más de 12 años de educación se registran niveles preocupantes de violencia, con cifras superiores al 60% en Nariño (52), Arauca (81), Amazonas (91) y Risaralda (66). Estos hallazgos evidencian que, aunque la educación parece tener un efecto protector, no elimina el riesgo de violencia de pareja.
